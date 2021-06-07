@@ -1,0 +1,27 @@
+#FROM alpine
+FROM python:3.7.10-alpine3.13
+
+# install nginx
+RUN apk add --no-cache --virtual=build-dependencies nginx tzdata curl g++ gcc libxslt-dev && \
+    rm -rf /tmp/* /var/cache/apk/* && \
+    cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime && \
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py && \
+    rm get-pip.py
+COPY nginx.default /etc/nginx/sites-available/default
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+
+# copy source and install dependencies
+RUN mkdir -p /opt/app
+RUN mkdir -p /opt/app/GacoWeb
+COPY requirements.txt start-server.sh /opt/app/
+COPY . /opt/app/GacoWeb/
+WORKDIR /opt/app
+RUN pip3 install -r requirements.txt
+#RUN chown -R www-data:www-data /opt/app
+
+# start server
+EXPOSE 8020
+STOPSIGNAL SIGTERM
+CMD ["/opt/app/start-server.sh"]
