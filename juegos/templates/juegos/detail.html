@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<ul>
+    <li>nombre: {{ juego.title }}</li>
+    <li>id: {{ juego.id }}</li>
+    <li>idExterno: {{ juego.idexterno }}</li>
+    <li><img src="{{ juego.image }}" width="200"></li>
+    <li>tipo: {{ juego.gettipo }}</li>
+    <li>consola: {{ juego.getconsola }}</li>
+    <li>tamano: {{ juego.tamano }}</li>
+    <li>tiempo: {{ juego.gettiempohora }} Horas</li>
+    <li>Ratio: {{ juego.getratio }}</li>
+    <li>terminado: {{ juego.terminado }}</li>
+    <li>visible: {{ juego.visible }}</li>
+    <li>venta: {{ juego.venta }}</li>
+    <li>idPrecio: {{ juego.idPrecio }}</li>
+    <li>precio: {{ juego.precio }}</li>
+</ul>
+<form action="/juegos/{{ juego.id }}/actualiza" method="post">
+    {% csrf_token %} 
+    <input type="text" id="url" name="url"/>
+    <input type="hidden" id="plataforma" name="plataforma" value="{{ juego.consola }}"/>
+    <input type="submit" value="Actualiza">
+</form>
+<form action="/juegos/{{ juego.id }}/actualizatiempo" method="post">
+    {% csrf_token %} 
+    <input type="text" id="url" name="url"/>
+    <input type="submit" value="Actualiza Tiempo">
+</form>
+
+{% endblock %}

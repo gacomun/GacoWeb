@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% load static %}
+{% if error_message %}
+<div class="alert alert-danger" role="alert">
+    {{ error_message }}
+</div>
+{% endif %}
+<form action="/juegos/tools/carga" method="post">
+    {% csrf_token %} 
+    <label for="plataforma">Elige plataforma:</label>
+    <select id="plataforma" name="plataforma">
+        <option value="nsw">Nintendo Switch</option>
+        <option value="ps4">Plastation 4</option>
+    </select> 
+    Cookie
+    <textarea id="cookie" name="cookie" rows="4" cols="50"></textarea>
+    <input type="submit" value="Cargar">
+</form>
+<form action="/juegos/tools/actualiza" method="post">
+    {% csrf_token %} 
+    <!-- <input type="submit" value="Actualiza"> -->
+    <input type="image" src="{% static 'juegos/images/configuraciones.svg' %}" alt="Submit" width="48" height="48">
+</form>
+<form action="/juegos/tools/precios" method="post">
+    {% csrf_token %} 
+    <input type="image" src="{% static 'juegos/images/dolar.svg' %}" alt="Submit" width="48" height="48">
+</form>
+{% endblock %}
