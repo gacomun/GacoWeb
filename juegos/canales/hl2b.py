@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import http.client
 import requests
+import sys
 
 def limpiatexto(cadena):
   cadena = cadena.replace("\t", "")
@@ -56,26 +57,34 @@ def search(title=""):
     listajuegos=soup.find_all("li")
     caracteristicas['lista'] = []
     for juego in listajuegos:
-        nombre=juego.find_all('h3',class_="shadow_text")[0].find_all("a")[0].string
-        datos=juego.find_all('div',class_="search_list_tidbit")
-        par=False
-        tiempos={}
-        tiempos['tiempos'] = []
-        for dato in datos:
-            if par ==False:
-                clave=dato.string
-                par=True
-            else:
-                tiempos['tiempos'].append({
-                    'clave': clave,
-                    'valor': float(tratatiempo(dato.string))
-                })
-                par=False
-            caracteristicas['lista'].append({
+        try:
+          nombre=juego.find_all('h3',class_="shadow_text")[0].find_all("a")[0].string
+          datos=juego.find_all('div',class_="search_list_tidbit")
+          par=False
+          tiempos={}
+          tiempos['tiempos'] = []
+          id=juego.find_all('a')[0].attrs['href'].replace("game?id=","")
+          thumb="https://howlongtobeat.com"+juego.find_all('img')[0].attrs['src']
+          detail="https://howlongtobeat.com/"+juego.find_all('a')[0].attrs['href']
+          for dato in datos:
+              if par ==False:
+                  clave=dato.string
+                  par=True
+              else:
+                  tiempos['tiempos'].append({
+                      'clave': clave,
+                      'valor': float(tratatiempo(dato.string))
+                  })
+                  par=False
+          caracteristicas['lista'].append({
             'titulo': limpiatexto(nombre),
+            'thumb':thumb,
+            'id': id,
+            'detail':detail,
             'tiempos':tiempos['tiempos']
-            })
-            # print(dato.string)
+          })
+        except:
+          print("hl2b -> search: Error procesando "+title)
     return caracteristicas
 
 def detail(url=""):

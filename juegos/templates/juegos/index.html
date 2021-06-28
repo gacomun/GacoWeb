@@ -1,235 +1,106 @@
 {% extends "base_generic.html" %}
-
 {% block content %}
-
-{% if juego_list %}
+{% load static %}
+  <script src="{% static 'juegos/index.js' %}"></script>
 <legend>Filtros</legend>
-  <form action="/juegos/" method="post">
     {% csrf_token %} 
     <div class="row g-3">
       <div class="col-sm">
-        <input type="text" class="form-control" placeholder="Titulo" aria-label="Titulo" id="titulo" name="titulo">
+        <input type="text" class="form-control" placeholder="Titulo" aria-label="Titulo" id="titulo" name="titulo" value="{{ filtro.titulo }}">
       </div>
       <div class="col-sm">
-        <input type="text" class="form-control" placeholder="Ratio" aria-label="Ratio" id="ratio" name="ratio">
+        <input type="text" class="form-control" placeholder="Ratio" aria-label="Ratio" id="ratio" name="ratio" value="{{ filtro.ratio }}">
+      </div>
+      <div class="col-auto">
+        Tipo
+        <select class="form-select form-select-sm" id="tipo" name="tipo" value="{{ filtro.tipo }}">
+          <option value="">Todos</option>
+          <option value="d">Digital</option>
+          <option value="f">Fisico</option>
+        </select>
       </div>
       <div class="col-auto">
         Consola
-        <select class="form-select form-select-sm" id="consola" name="consola">
+        <select class="form-select form-select-sm" id="consola" name="consola" value="{{ filtro.consola }}">
           <option value="">Todos</option>
           <option value="nsw">Switch</option>
           <option value="ps4">PS4</option>
+          <option value="ps5">PS5</option>
         </select>
       </div>
       <div class="col-auto">
         Terminado
         <select class="form-select form-select-sm" id="end" name="end">
           <option value="">Todos</option>
-          <option value="False">False</option>
+          <option value="False" selected="selected">False</option>
           <option value="True">True</option>
         </select>
       </div>
       <div class="col-auto">
         Venta
         <select class="form-select form-select-sm" id="venta" name="venta">
-          <option value="">Todos</option>
+          <option value="" >Todos</option>
           <option value="False">False</option>
-          <option value="True">True</option>
+          <option value="True" >True</option>
         </select>
       </div>
       <div class="col-auto">
         Visible
         <select class="form-select form-select-sm" id="visible" name="visible">
-          <option value="">Todos</option>
-          <option value="False">False</option>
-          <option value="True">True</option>
+          <option value="" >Todos</option>
+          <option value="False" >False</option>
+          <option value="True" selected="selected">True</option>
         </select>
       </div>
       <div class="col-auto">
         Ordenar
         <div class="radio">
           <label>
-            <input type="radio" name="opciones" id="opciones_1" value="1">
+            <input type="radio" name="opciones" id="opciones_1" value="title">
             Titulo
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="opciones" id="opciones_2" value="2" checked>
+            <input type="radio" name="opciones" id="opciones_2" value="ratio" checked>
             Ratio
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="opciones" id="opciones_3" value="3">
+            <input type="radio" name="opciones" id="opciones_3" value="tamano" >
             Tamaño
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="opciones" id="opciones_4" value="4">
+            <input type="radio" name="opciones" id="opciones_4" value="tiempo" >
             Tiempo
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="opciones" id="opciones_5" value="5">
+            <input type="radio" name="opciones" id="opciones_5" value="precio" >
             Precio
           </label>
         </div>
       </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    
-  </form>
-
-<div class="container">
-  <div class="row">
-    <div class="col">Titulo</div>
-    <div class="col">Imagen</div>
-    <div class="col">Ratio</div>
-    <div class="col">Tamaño</div>
-    <div class="col">Tiempo</div>
-    <div class="col">Tipo</div>
-    <div class="col">Consola</div>
-    <div class="col">Terminado</div>
-    <div class="col">Venta</div>
-    <div class="col">Precio</div>
-  </div>
-  {% for juego in juego_list %}
-  <div class="row">
-    <div class="col"><a href="{% url 'juegos:detail' juego.id %}">{{ juego.title }}</a></div>
-    <div class="col"><img src="{{ juego.image }}" class="img-thumbnail" width="100"></div>
-    <div class="col">{{ juego.getratio }}</div>
-    <div class="col">{{ juego.tamano }} MB</div>
-    <div class="col">{{ juego.gettiempohora }} H</div>
-    <div class="col">{{ juego.gettipo }}</div>
-    <div class="col">{{ juego.getconsola }}</div>
-    <div class="col">{{ juego.terminado }}</div>
-    <div class="col">{{ juego.venta }}</div>
-    <div class="col">{{ juego.precio }}</div>
-  </div>
-  {% endfor %}
-</div>
-
-<!-- <table style="width:100%"  id="myTable">
-    <tr class="header">
-      <th>Titulo<br/><input type="text" id="titulo" onkeyup="var titulo = document.getElementById('titulo').value;myFunction(titulo,0)" placeholder="Search for titulo.." title="Type in a name"></th>
-      <th>Imagen</th>
-      <th>Ratio<br/><input type="text" id="ratio" onkeyup="var ratio = document.getElementById('ratio').value;myFunction(ratio,2)" placeholder="Search for ratio.." title="Type in a name" size="7"></th>
-      <th>Tamaño</th>
-      <th>Tiempo</th>
-      <th>Tipo</th>
-      <th>Consola<br/>
-        <select id="consola" name="consola" onchange="var consola = document.getElementById('consola').value;myFunction(consola,6)">
-          <option value="">Todos</option>
-          <option value="Switch">Switch</option>
-          <option value="PS4">PS4</option>
-       </select> 
-      </th>
-      <th>Terminado<br/>
-        <select id="end" name="end" onchange="var end = document.getElementById('end').value;myFunction(end,7)">
-          <option value="">Todos</option>
-          <option value="false">False</option>
-          <option value="true">True</option>
-       </select> 
-      </th>
-      <th>Venta<br/>
-        <select id="venta" name="venta" onchange="var venta = document.getElementById('venta').value;myFunction(venta,8)">
-          <option value="">Todos</option>
-          <option value="false">False</option>
-          <option value="true">True</option>
-       </select> 
-      </th>
-      <th>Precio</th>
-    </tr>
-    {% for juego in juego_list %}
-    <tr><td><a href="{% url 'juegos:detail' juego.id %}">{{ juego.title }}</a></td><td> <img src="{{ juego.image }}" width="100"> </td><td>{{ juego.getratio }}</td><td>{{ juego.tamano }} MB</td><td>{{ juego.gettiempohora }} H</td><td>{{ juego.gettipo }}</td><td>{{ juego.getconsola }}</td><td>{{ juego.terminado }}</td><td>{{ juego.venta }}</td><td>{{ juego.precio }}</td></tr>
-    {% endfor %}
-</table>  -->
-{% else %}
-<legend>Filtros</legend>
-  <form action="/juegos/" method="post">
-    {% csrf_token %} 
-    <div class="row g-3">
-      <div class="col-sm">
-        <input type="text" class="form-control" placeholder="Titulo" aria-label="Titulo" id="titulo" name="titulo">
-      </div>
-      <div class="col-sm">
-        <input type="text" class="form-control" placeholder="Ratio" aria-label="Ratio" id="ratio" name="ratio">
-      </div>
       <div class="col-auto">
-        Consola
-        <select class="form-select form-select-sm" id="consola" name="consola">
-          <option value="">Todos</option>
-          <option value="nsw">Switch</option>
-          <option value="ps4">PS4</option>
-        </select>
-      </div>
-      <div class="col-auto">
-        Terminado
-        <select class="form-select form-select-sm" id="end" name="end">
-          <option value="">Todos</option>
-          <option value="False">False</option>
-          <option value="True">True</option>
-        </select>
-      </div>
-      <div class="col-auto">
-        Venta
-        <select class="form-select form-select-sm" id="venta" name="venta">
-          <option value="">Todos</option>
-          <option value="False">False</option>
-          <option value="True">True</option>
-        </select>
-      </div>
-      <div class="col-auto">
-        Visible
-        <select class="form-select form-select-sm" id="visible" name="visible">
-          <option value="">Todos</option>
-          <option value="False">False</option>
-          <option value="True">True</option>
-        </select>
-      </div>
-      <div class="col-auto">
-        Ordenar
         <div class="radio">
           <label>
-            <input type="radio" name="opciones" id="opciones_1" value="1">
-            Titulo
+            <input type="radio" name="updown" id="updown_1" value=" asc">
+            Ascendente
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="opciones" id="opciones_2" value="2" checked>
-            Ratio
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="opciones" id="opciones_3" value="3">
-            Tamaño
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="opciones" id="opciones_4" value="4">
-            Tiempo
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="opciones" id="opciones_5" value="5">
-            Precio
+            <input type="radio" name="updown" id="updown_2" value=" desc" checked>
+            Descendente
           </label>
         </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    
-  </form>
-
-    <p>No juegos are available.</p>
-{% endif %}
+  <button type="button" class="btn btn-primary" onclick="listjuegos()">Submit</button>   
 {% endblock %}
 
   

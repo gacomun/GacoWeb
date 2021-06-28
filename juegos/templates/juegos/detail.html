@@ -1,32 +1,79 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<ul>
-    <li>nombre: {{ juego.title }}</li>
-    <li>id: {{ juego.id }}</li>
-    <li>idExterno: {{ juego.idexterno }}</li>
-    <li><img src="{{ juego.image }}" width="200"></li>
-    <li>tipo: {{ juego.gettipo }}</li>
-    <li>consola: {{ juego.getconsola }}</li>
-    <li>tamano: {{ juego.tamano }}</li>
-    <li>tiempo: {{ juego.gettiempohora }} Horas</li>
-    <li>Ratio: {{ juego.getratio }}</li>
-    <li>terminado: {{ juego.terminado }}</li>
-    <li>visible: {{ juego.visible }}</li>
-    <li>venta: {{ juego.venta }}</li>
-    <li>idPrecio: {{ juego.idPrecio }}</li>
-    <li>precio: {{ juego.precio }}</li>
-</ul>
-<form action="/juegos/{{ juego.id }}/actualiza" method="post">
-    {% csrf_token %} 
-    <input type="text" id="url" name="url"/>
-    <input type="hidden" id="plataforma" name="plataforma" value="{{ juego.consola }}"/>
-    <input type="submit" value="Actualiza">
-</form>
-<form action="/juegos/{{ juego.id }}/actualizatiempo" method="post">
-    {% csrf_token %} 
-    <input type="text" id="url" name="url"/>
-    <input type="submit" value="Actualiza Tiempo">
-</form>
+{% load static %}
+<script src="{% static 'juegos/detail.js' %}"></script>
+<script>
+  $(document).ready(function(){
+    procesaId();
+  });
+</script>
 
+<table class="table table-sm table-bordered border-primary table-fit">
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td colspan="2"><input class="form-control" type="text" aria-label="Disabled input example" disabled value="{{ id }}" name="id" id="id"></td>
+            <td rowspan="5" colspan="2"><img src="" width="250" id="image"></td>
+        </tr>
+        <tr>
+            <td>Nombre</td>
+            <td colspan="2"><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="title"></td>
+        </tr>
+        <tr>
+            <td>Tipo</td>
+            <td colspan="2"><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="tipo"></td>
+        </tr>
+        <tr>
+            <td>Consola</td>
+            <td colspan="2"><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="consola"></td>
+        </tr>
+        <tr>
+            <td>Estado</td>
+            <td colspan="2"><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="estado"></td>
+        </tr>
+        <tr>
+            <td>Tamano</td>
+            <td>Tiempo</td>
+            <td>Ratio</td>
+            <td>Enlaces</td>
+            <td>Acciones</td>
+        </tr>
+        <tr>
+            <td><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="tamano"></td>
+            <td><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="tiempo"></td>
+            <td><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="ratio"></td>
+            <td>
+                <a href="https://es.webuy.com/product-detail/?id={{ juego.idPrecio }}" id="idprecio"target="otro"><img src="{% static 'juegos/images/cex.ico' %}" width="24" alt="Actualizar tiempo"></a>
+            </td>
+            <td>
+                <ul>
+                    <li>
+                        Actualizar Tiempo <a href="/juegos/canales/search?modo=tiempo&id={{id}}"><img src="" class="tiempo" width="24"></a>
+                    </li>
+                    <li>
+                        Buscar Juego <a href="/juegos/canales/search?modo=buscar&id={{ id }}"><img src="" class="buscar" width="24"></a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Terminado</td>
+            <td>Visible</td>
+            <td>Venta</td>
+            <td>Precio</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><img src="" width="24" id="terminado"></td>
+            <td><img src="" width="24" id="visible"></td>
+            <td><img src="" width="24" id="venta"></td>
+            <td>
+                <input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="precio">
+                Buscar Juego <a href="/juegos/canales/search?modo=precio&id={{ id }}"><img src="" class="buscar" width="24"></a>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
 {% endblock %}

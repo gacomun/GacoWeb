@@ -1,4 +1,5 @@
 import requests
+import json
 
 def transactions(limit=100,offset=0,cookie=""):
     url = "https://web.np.playstation.com/api/graphql/v1/op?operationName=getPurchasedGameList&variables={\"isActive\":true,\"platform\":[\"ps4\",\"ps5\"],\"size\":"+str(limit)+",\"start\":"+str(offset)+",\"sortBy\":\"ACTIVE_DATE\",\"sortDirection\":\"desc\",\"subscriptionService\":\"NONE\"}&extensions={\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"2c045408b0a4d0264bb5a3edfed4efd49fb4749cf8d216be9043768adff905e2\"}}"
@@ -22,4 +23,30 @@ def transactions(limit=100,offset=0,cookie=""):
     response = requests.request("GET", url, headers=headers, data=payload)
 
     return response.text
+
+def search(title):
+    url = "https://web.np.playstation.com/api/graphql/v1//op?operationName=getSearchResults&variables={\"countryCode\":\"ES\",\"languageCode\":\"es\",\"nextCursor\":\"CBgaTgokM2I3MjNmMWM4MzNmNDk5M2E0ZmU2NWE0MjczNDkzOTQtOTMyEiZzZWFyY2gtcmVsZXZhbmN5LWNvbmNlcHQtZ2FtZS1hbGwtdG9wayIec2VhcmNoLm5vX2V4cGVyaW1lbnQubm9uLjAubm9uKgM3ODU\",\"pageOffset\":0,\"pageSize\":24,\"searchTerm\":\""+title+"\"}&extensions={\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"886102a3a6c2d2d80d5702fbe8fbf960e535bf85dfa7f5d5bf67dcc2775be177\"}}"
+
+    payload={}
+    headers = {}
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+    sresponse=json.loads(response.text)
+    respuesta={}
+    respuesta['lista'] = []
+    for juego in sresponse["data"]["universalSearch"]["results"]:
+        thumb=""
+        for media in juego["media"]:
+            if media["role"] == "MASTER":
+                thumb=media["url"]
+        respuesta['lista'].append({
+            'titulo': juego["name"],
+            'thumb':thumb,
+            'id': juego["id"],
+            'detail':"https://store.playstation.com/es-es/product/"+juego["id"],
+            'consola':'ps4'
+            })
+
+    return respuesta
+
     

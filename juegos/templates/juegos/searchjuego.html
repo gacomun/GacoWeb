@@ -1,0 +1,69 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% load static %}
+  <script src="{% static 'juegos/searchjuego.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+      procesaId();
+    });
+  </script>
+  <input type="hidden" name="modo" id="modo" value="{{ modo }}">
+  <input type="hidden" name="id" id="id" value="{{ id }}">
+  {% if modo == "tiempo" %}<h3>Actualizar Tiempo</h3>{% endif %}
+  {% if modo == "alta" %}<h3>Alta Juego</h3>{% endif %}
+  {% if modo == "buscar" %}<h3>Buscar Juego</h3>{% endif %}
+  {% if modo == "precio" %}<h3>Buscar Juego para Precio</h3>{% endif %}
+<legend>Filtros</legend>
+    {% csrf_token %} 
+    <div class="row g-3">
+      <div class="col-sm">
+        <input type="text" class="form-control" placeholder="Titulo" aria-label="Titulo" id="titulo" name="titulo" value="{{ filtro.titulo }}">
+      </div>
+      <div class="col-auto">
+        Canal
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_1" value="nintendo" {% if modo != "alta" and modo != "buscar"%}disabled{% endif %}>
+            Nintendo
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_2" value="sony" {% if modo != "alta" and modo != "buscar" %}disabled{% endif %}>
+            PS4
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_3" value="hl2b" {% if modo != "tiempo" %}disabled{% endif %}>
+            HowLong2beat
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_4" value="duracionde" {% if modo != "tiempo" %}disabled{% endif %}>
+            duracionde
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_5" value="cex" {% if modo != "precio" %}disabled{% endif %}>
+            Cex
+          </label>
+        </div>
+      </div>
+    </div>
+    
+  <button class="btn btn-primary" onclick="listcanal()">Submit</button> 
+  {% if id %}<a class="nav-link" href="{% url 'juegos:detail' id %}"><img class="back" width="24"></a>{% endif %}
+  <table class="table table-info table-striped table-sm" id="tabla">
+    <thead>
+      <th scope="col">Titulo</th>
+      <th scope="col">Imagen</th>
+      <th scope="col">Resumen</th>
+      <th scope="col">detail</th>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  {% endblock %}

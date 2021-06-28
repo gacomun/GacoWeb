@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import json
 
 
 def tratatamano(cadena):
@@ -25,15 +26,33 @@ def transactions(limit=100,offset=0,cookie=""):
 
     return response.text
 
-def searchgame(title=""):
+def search(title=""):
     url = "https://searching.nintendo-europe.com/es/select?q="+title+"&fq=type:GAME AND sorting_title:* AND *:*&sort=score desc, date_from desc&start=0&rows=24&wt=json&bf=linear(ms(priority,NOW/HOUR),1.1e-11,0)&bq=!deprioritise_b:true^999"
 
     payload={}
     headers = {}
 
     response = requests.request("GET", url, headers=headers, data=payload)
-
-    return response.text
+# añadido
+    sresponse=json.loads(response.text)
+    respuesta={}
+    respuesta['lista'] = []
+    for juego in sresponse["response"]["docs"]:
+        if 'image_url_sq_s' in juego:
+            thumb=juego["image_url_sq_s"]
+        if 'image_url' in juego:
+            thumb=juego["image_url"]
+        else:
+            thumb=""
+        respuesta['lista'].append({
+            'titulo': juego["title"],
+            'thumb':thumb,
+            'id': juego["fs_id"],
+            'detail':"https://www.nintendo.es/"+juego["url"],
+            'consola':'nsw'
+            })
+    #return response.text
+    return respuesta
 
 def detail(title=""):
     tamano=0

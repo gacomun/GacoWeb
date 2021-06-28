@@ -5,3 +5,35 @@ li a {
 /* body {
     background: white url("images/instagram.png") no-repeat;
 } */
+
+img.imgchecked {
+    content:url(/static/juegos/images/checked.svg);
+    max-width: 24px;  
+}
+
+img.imgcancel {
+    content:url(/static/juegos/images/cancel.svg);
+    max-width: 24px;  
+}
+
+img.tiempo {
+    content:url(/static/juegos/images/wall-clock.svg);
+    max-width: 24px;  
+}
+
+img.buscar {
+    content:url(/static/juegos/images/binoculars.svg);
+    max-width: 24px;  
+}
+
+img.back {
+    content:url(/static/juegos/images/atras.svg);
+    max-width: 24px;  
+}
+
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+  }

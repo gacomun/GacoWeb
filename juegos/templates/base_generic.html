@@ -20,18 +20,38 @@
   <div class="container-fluid">
 
     <div class="row">
-      <div class="col-sm-2">
       {% block sidebar %}
-      <ul class="sidebar-nav">
-          <li><a href="{% url 'juegos:index' %}"><img src="{% static 'juegos/images/hogar.svg' %}" width="48"></a></li>
-          <li><a href="{% url 'juegos:tools' %}"><img src="{% static 'juegos/images/compartir.svg' %}" width="48"></a></li>
-          <li><a href="/admin"><img src="{% static 'juegos/images/usuarios.svg' %}" width="48"></a></li>
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'juegos:index' %}"><img src="{% static 'juegos/images/hogar.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'juegos:tools' %}"><img src="{% static 'juegos/images/compartir.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin"><img src="{% static 'juegos/images/usuarios.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/juegos/canales/search?modo=alta"><img src="{% static 'juegos/images/anadir.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <small>
+            <div>Iconos diseñados por <a href="https://www.flaticon.es/autores/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
+            <div>Iconos diseñados por <a href="https://www.flaticon.es/autores/bqlqn" title="bqlqn">bqlqn</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
+            <div>Icons made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+          </small>
+        </li>
       </ul>
-      <div>Iconos diseñados por <a href="https://www.flaticon.es/autores/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
-      <div>Iconos diseñados por <a href="https://www.flaticon.es/autores/bqlqn" title="bqlqn">bqlqn</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
+      <div id="msg"></div>
+      <div class="d-flex justify-content-center" style="visibility: hidden" id="spinner">
+          <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+          </div>
+      </div>
+
      {% endblock %}
       </div>
-      <div class="col-sm-10 ">
+      <div class="row">
       {% block content %}{% endblock %}
       </div>
     </div>

@@ -2,29 +2,46 @@
 
 {% block content %}
 {% load static %}
-{% if error_message %}
-<div class="alert alert-danger" role="alert">
-    {{ error_message }}
-</div>
-{% endif %}
-<form action="/juegos/tools/carga" method="post">
-    {% csrf_token %} 
-    <label for="plataforma">Elige plataforma:</label>
-    <select id="plataforma" name="plataforma">
-        <option value="nsw">Nintendo Switch</option>
-        <option value="ps4">Plastation 4</option>
-    </select> 
-    Cookie
-    <textarea id="cookie" name="cookie" rows="4" cols="50"></textarea>
-    <input type="submit" value="Cargar">
-</form>
-<form action="/juegos/tools/actualiza" method="post">
-    {% csrf_token %} 
-    <!-- <input type="submit" value="Actualiza"> -->
-    <input type="image" src="{% static 'juegos/images/configuraciones.svg' %}" alt="Submit" width="48" height="48">
-</form>
-<form action="/juegos/tools/precios" method="post">
-    {% csrf_token %} 
-    <input type="image" src="{% static 'juegos/images/dolar.svg' %}" alt="Submit" width="48" height="48">
-</form>
+  <script src="{% static 'juegos/tools.js' %}"></script>
+
+{% csrf_token %} 
+<table class="table table-borderless">
+  <thead>
+    <tr>
+      <th scope="col">Plataforma</th>
+      <th scope="col">Cookie</th>
+      <th scope="col">Enlaces</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <select id="plataforma" name="plataforma">
+          <option value="nsw">Nintendo Switch</option>
+          <option value="ps4">Playstation 4</option>
+        </select> 
+      </td>
+      <td>
+        <textarea id="cookie" name="cookie" rows="4" cols="50"></textarea>
+      </td>
+      <td>
+        <a href="https://library.playstation.com/recently-purchased">ps4</a><br>
+        <a href="https://ec.nintendo.com/my/#/transactions/1">nintendo</a>
+      </td>
+      <td>
+        <button type="button" class="btn btn-primary" onclick="tools_carga()">Cargar</button>   
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="image" src="{% static 'juegos/images/configuraciones.svg' %}" alt="Submit" width="48" onclick="tools_actualiza()">
+        <input type="image" src="{% static 'juegos/images/dolar.svg' %}" alt="Submit" width="48" onclick="tools_precios()">
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 {% endblock %}

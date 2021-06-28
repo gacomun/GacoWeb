@@ -1,9 +1,16 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.views import generic
+from django.views import generic, View
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Juego
 import juegos.tools as t
+import juegos.canales.nintendo as n
+import juegos.canales.sony as s
+import juegos.canales.hl2b as HLTB
+
+
 
 # class IndexView(generic.ListView):
 #     template_name = 'juegos/index.html'
@@ -15,49 +22,7 @@ import juegos.tools as t
 #         return sorted(Juego.objects.all().filter(visible=True), key= lambda j: j.getratio(), reverse=True)
 
 def index(request):
-    if request.method == "POST":
-        juego_list = Juego.objects.all()
-        titulo=request.POST['titulo']
-        if titulo != "":
-            juego_list=juego_list.filter(title__contains=titulo)
-        ratio=request.POST['ratio']
-        consola=request.POST['consola']
-        if consola != "":
-            juego_list=juego_list.filter(consola=consola)
-        end=request.POST['end']
-        if end != "":
-            juego_list=juego_list.filter(terminado=end)
-        venta=request.POST['venta']
-        if venta != "":
-            juego_list=juego_list.filter(venta=venta)
-        visible=request.POST['visible']
-        if visible != "":
-            juego_list=juego_list.filter(visible=visible)
-        order=request.POST['opciones']
-        if order =="1":
-            juego_list = juego_list.order_by("-title")
-        elif order =="3":
-            juego_list = juego_list.order_by("-tamano")
-        elif order =="4":
-            juego_list = juego_list.order_by("-tiempo")
-        elif order =="5":
-            juego_list = juego_list.order_by("-precio")
-        else:    
-            juego_list = sorted(juego_list, key= lambda j: j.getratio(), reverse=True)
-        if ratio != "":
-            juegos_temp=[]
-            for juego in juego_list:
-                if ratio in str(juego.getratio()):
-                    juegos_temp.append(juego)
-            juego_list=juegos_temp
-
-
-    else:
-        juego_list = sorted(Juego.objects.all().filter(visible=True), key= lambda j: j.getratio(), reverse=True)
-    context = {
-        'juego_list': juego_list,
-    }
-    return render(request, 'juegos/index.html', context)
+    return render(request, 'juegos/index.html')
 
 
 
@@ -65,50 +30,100 @@ class DetailView(generic.DetailView):
     model = Juego
     template_name = 'juegos/detail.html'
 
-
-class ResultsView(generic.DetailView):
-    model = Juego
-    template_name = 'juegos/results.html'
-
+def detail(request, pk):
+    context = {
+        'id': pk
+    }
+    return render(request, 'juegos/detail.html', context)
 
 def tools(request):
     context = {}
     return render(request, 'juegos/tools.html', context)
 
+# def detactualiza(request, juego_id):
+#     url=request.POST['url']
+#     plataforma=request.POST['plataforma']
+#     t.tooldetactualiza(juego_id,url,plataforma)
+#     juego = get_object_or_404(Juego, pk=juego_id)
+#     return render(request, 'juegos/detail.html', {'juego': juego})
 
-def carga(request):
-    cookie=request.POST['cookie']
-    if cookie=="":
-        return render(request, 'juegos/tools.html', {'error_message': "Cookie obligatoria",})
-    plataforma=request.POST['plataforma']
-    try:
-        if plataforma == 'nsw':
-            t.toolcargaswitch(cookie)
-        if plataforma == 'ps4':
-            t.toolcargaps4(cookie)
-    except: 
-        # Redisplay the question voting form.
-        return render(request, 'juegos/tools.html', {'error_message': "Error acceso",})
-    else:
-        return render(request, 'juegos/tools.html')
-    
-def actualiza(request):
-    t.toolactualizajuegos()
-    return render(request, 'juegos/tools.html')
+# def detactualizatiempo(request, juego_id):
+#     url=request.POST['url']
+#     t.tooldetactualizatiempo(juego_id,url)
+#     juego = get_object_or_404(Juego, pk=juego_id)
+#     return render(request, 'juegos/detail.html', {'juego': juego})
 
-def detactualiza(request, juego_id):
-    url=request.POST['url']
-    plataforma=request.POST['plataforma']
-    t.tooldetactualiza(juego_id,url,plataforma)
-    juego = get_object_or_404(Juego, pk=juego_id)
-    return render(request, 'juegos/detail.html', {'juego': juego})
 
-def detactualizatiempo(request, juego_id):
-    url=request.POST['url']
-    t.tooldetactualizatiempo(juego_id,url)
-    juego = get_object_or_404(Juego, pk=juego_id)
-    return render(request, 'juegos/detail.html', {'juego': juego})
+# def searchjuego(request):
+#     respuesta={}
+#     consola=""
+#     if request.method == "POST":
+#         titulo=request.POST['titulo']
+#         if 'opciones' not in request.POST:
+#             canal = "1"
+#         else:
+#             canal=request.POST['opciones']
+#         if canal =="1":
+#             respuesta=n.search(titulo)
+#             consola="nsw"
+#         elif canal =="2":
+#             respuesta=s.search(titulo)
+#             consola="ps4"
+#         elif canal =="3":
+#             respuesta=HLTB.search(titulo)
+#         filtro={
+#             'titulo':titulo,
+#             'canal':canal
+#         }
 
-def precios(request):
-    t.toolpreciojuegos()
-    return render(request, 'juegos/tools.html')
+#     else:
+#         filtro={
+#                 'canal':"1"
+#             }
+#     context = {
+#         'respuesta': respuesta,
+#         'filtro': filtro,
+#         'consola':consola
+#     }
+#     return render(request, 'juegos/searchjuego.html',context)
+
+
+# def detsearchjuego(request, juego_id):
+#     if request.method == "GET":
+#         jbbdd = Juego.objects.get(id=juego_id)
+#         respuesta={}
+#         consola=""
+#         filtro={
+#             'canal':"3",
+#             'titulo':jbbdd.title
+#         }
+#         context = {
+#             'respuesta': respuesta,
+#             'filtro': filtro,
+#             'consola':consola
+#         }
+#         return render(request, 'juegos/searchjuego.html',context)
+
+def canalsearch(request):
+    # if request.method == "POST":
+    #     modo=request.POST['modo']
+    #     id=""
+    #     if 'id' in request.POST:
+    #         id=request.POST['id']
+    #     context = {
+    #         'modo': modo,
+    #         'id': id
+    #     }
+    #     return render(request, 'juegos/searchjuego.html',context)
+    if request.method == "GET":
+        modo=""
+        id=""
+        if 'modo' in request.GET:
+            modo=request.GET['modo']
+        if 'id' in request.GET:
+            id=request.GET['id']
+        context = {
+            'modo': modo,
+            'id': id
+        }
+        return render(request, 'juegos/searchjuego.html',context)
