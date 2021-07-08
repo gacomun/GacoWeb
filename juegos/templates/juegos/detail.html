@@ -8,6 +8,7 @@
     procesaId();
   });
 </script>
+<h3>Consultar</h3>
 
 <table class="table table-sm table-bordered border-primary table-fit">
     <tbody>
@@ -44,7 +45,8 @@
             <td><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="tiempo"></td>
             <td><input class="form-control" type="text" aria-label="Disabled input example" disabled value="" id="ratio"></td>
             <td>
-                <a href="https://es.webuy.com/product-detail/?id={{ juego.idPrecio }}" id="idprecio"target="otro"><img src="{% static 'juegos/images/cex.ico' %}" width="24" alt="Actualizar tiempo"></a>
+                <a href="https://es.webuy.com/product-detail/?id={{ juego.idPrecio }}" id="idprecio"target="otro"><img src="{% static 'juegos/images/cex.ico' %}" width="24" alt="Actualizar tiempo"></a><br>
+                <a href="/admin/juegos/juego/{{ id }}/change/" target="otro"><img src="{% static 'juegos/images/edit.svg' %}" width="24"></a>
             </td>
             <td>
                 <ul>

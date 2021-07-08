@@ -5,13 +5,15 @@ from rest_framework import status
 import importlib
 from django.shortcuts import get_object_or_404
 import juegos.tools as t
+import logging
 
-
-
+# Create a logger for this file
+logger = logging.getLogger(__file__)
 
 @api_view(['GET', 'POST', 'DELETE'])
 def juego_list(request):
     if request.method == 'GET':
+        logger.info("listJuegos")
         items = Juego.objects.all()
         # items_data = serializers.serialize("json", Juego.objects.all())
 
@@ -66,6 +68,7 @@ def juego_list(request):
 
         return JsonResponse(data)
     if request.method == 'POST':
+        logger.info("postJuego")
         j=Juego()
         error = ""
         if 'titulo' in request.data:
@@ -81,6 +84,8 @@ def juego_list(request):
             j.imagen=imagen
         if 'consola' in request.data:
             j.consola=request.data['consola']
+            if j.idValidConsola() == False :
+                error+='valor consola no valida,'
         else:
             error+='consola,'
         if 'tipo' in request.data:
@@ -115,9 +120,11 @@ def juego_detail(request, pk):
     except Juego.DoesNotExist: 
         return JsonResponse({'message': 'El juego no existe'}, status=status.HTTP_404_NOT_FOUND) 
     if request.method == 'GET':
+        logger.info("getJuego")
         items_data=item.toJson()
         return JsonResponse(items_data, status=200)
     elif request.method == 'PATCH':
+        logger.info("patchJuego")
         if 'tiempo' in request.data:
             tiempo = request.data["tiempo"]
             item.tiempo=tiempo
@@ -133,6 +140,7 @@ def juego_detail(request, pk):
 @api_view(['GET'])
 def canal_detail(request, canal):
     if request.method == 'GET':
+        logger.info("listCanales")
         title = request.query_params.get('title', None)
         object = importlib.import_module("juegos.canales."+canal)
         result = object.search(title)
@@ -172,9 +180,9 @@ def tools_carga_list(request):
 
 
     except: 
-        data = {
-                "message": "Error en carga de juegos: Error tecnico"
-            }
+        msg="Error en carga de juegos: Error tecnico"
+        logger.exception(msg)
+        data = {"message": msg}
         return JsonResponse(data, status=500)
 
 @api_view(['GET'])
@@ -184,7 +192,9 @@ def tools_actualiza_list(request):
         data = {"message": "Actualización realizada correctamente."}
         return JsonResponse(data, status=200)
     except: 
-        data = {"message": "Error en actualización de juegos: Error tecnico"}
+        msg="Error en actualización de juegos: Error tecnico"
+        logger.exception(msg)
+        data = {"message": msg}
         return JsonResponse(data, status=500)
 
 @api_view(['GET'])
@@ -194,7 +204,9 @@ def tools_precios_list(request):
         data = {"message": "Actualización Precios realizada correctamente."}
         return JsonResponse(data, status=200)
     except: 
-        data = {"message": "Error en actualización de precios: Error tecnico"}
+        msg="Error en actualización de precios: Error tecnico"
+        logger.exception(msg)
+        data = {"message": msg}
         return JsonResponse(data, status=500)
 
 @api_view(['POST'])
@@ -204,7 +216,9 @@ def juego_detail_actualiza(request, pk):
             try: 
                 item = Juego.objects.get(pk=pk) 
             except Juego.DoesNotExist: 
-                return JsonResponse({'message': 'El juego no existe'}, status=status.HTTP_404_NOT_FOUND) 
+                msg='El juego no existe'
+                logger.exception(msg)
+                return JsonResponse({'message': msg}, status=status.HTTP_404_NOT_FOUND) 
             t.tooldetactualiza(pk,request.data["detalle"],item.consola)
             data = {"message": "Actualización Juego realizada correctamente."}
             return JsonResponse(data, status=200)

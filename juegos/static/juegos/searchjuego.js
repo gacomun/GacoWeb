@@ -78,14 +78,15 @@ function listcanal() {
             dev=dev.concat('<label class="form-check-label" for="flexRadioDefault1">').concat(clave).concat(' = ').concat(valor).concat('</label><br>')
         }
         dev+="";
-    }
-    else if(modo == "precio"){
+    }else if(modo == "precio"){
       dev=dev.concat('<ul class="list-group">');
       for(i = 0; i < lista.precios.length; i++) {
         clave=lista.precios[i].clave;
         valor=lista.precios[i].valor;
         dev=dev.concat('<li class="list-group-item list-group-item-warning">').concat(clave).concat(" -> ").concat(valor).concat('</li>');
       }
+    }else if(modo == "alta"){
+      dev=dev.concat("Consola -> ").concat(lista.consola)
     }
     dev=dev.concat('</ul>');
     return dev

@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
-
+from rest_framework.test import APIRequestFactory
+from rest_framework import status
 from .models import Juego
 
 class JuegoModelTests(TestCase):
@@ -103,6 +104,29 @@ class CanalNintendoTests(TestCase):
         self.assertEqual(cadena,"1000.00 ")
         cadena=n.tratatamano("1000000,00 MB")
         self.assertEqual(cadena,"1000000.00 ")
+
+    def test_trataConsola(self):
+        cadena=n.trataConsola("")
+        self.assertEqual(cadena,"N/A")
+        cadena=n.trataConsola("Nintendo Switch")
+        self.assertEqual(cadena,"nsw")
+        cadena=n.trataConsola("3ds_downloadsoftware")
+        self.assertEqual(cadena,"3ds")
+        cadena=n.trataConsola("nintendoswitch_downloadsoftware")
+        self.assertEqual(cadena,"nsw")
+        cadena=n.trataConsola("dsi_dsiware,3ds_dsiware")
+        self.assertEqual(cadena,"3ds")
+        cadena=n.trataConsola("nds_cartridge")
+        self.assertEqual(cadena,"nds")
+        cadena=n.trataConsola("wii_disc,wiiu_wiidigitaldistribution")
+        self.assertEqual(cadena,"wiiu")
+        cadena=n.trataConsola("wii_disc")
+        self.assertEqual(cadena,"wii")
+        cadena=n.trataConsola("nds_cartridge,wiiu_virtualconsole")
+        self.assertEqual(cadena,"nds")
+        cadena=n.trataConsola("gameboyadvance_cartridge")
+        self.assertEqual(cadena,"gba")
+        
     
     def test_searchgame(self):
         cadena=n.search("overcooked")
@@ -115,22 +139,24 @@ class CanalNintendoTests(TestCase):
     def test_detail(self):        
         sal=n.detail("https://www.nintendo.es/Juegos/Nintendo-Switch/Overcooked-2-1388792.html")
         self.assertTrue(sal)
-        detalle = json.loads(sal)
-        self.assertNotEqual(detalle["tamano"],0)
+        self.assertNotEqual(sal["tamano"],0)
+        self.assertTrue(sal["title"],0)
         sal=n.detail("https://www.nintendo.es/Contenido-descargable/Overcooked-2-Surf-n-Turf-1454782.html")
         self.assertTrue(sal)
-        detalle = json.loads(sal)
-        self.assertNotEqual(detalle["tamano"],0)
+        self.assertNotEqual(sal["tamano"],0)
+        self.assertTrue(sal["title"],0)
         sal=n.detail("https://www.nintendo.es/Juegos/Programas-descargables-Nintendo-Switch/Coffee-Crisis-1468498.html")
         self.assertTrue(sal)
-        detalle = json.loads(sal)
-        self.assertNotEqual(detalle["tamano"],0)
+        self.assertNotEqual(sal["tamano"],0)
+        self.assertTrue(sal["title"],0)
 
 import juegos.canales.sony as s
 class CanalSonyTests(TestCase):
 
     def test_searchgame(self):
         cadena=s.search("horizon zero")
+        self.assertNotEqual(len(cadena),0)
+        cadena=s.search("control")
         self.assertNotEqual(len(cadena),0)
 
 import juegos.canales.hl2b as HLTB
@@ -197,7 +223,7 @@ class ToolsTests(TestCase):
         jbbdd.save()
         t.toolactualizajuegos()
         jbbdd = Juego.objects.get(id=0)
-        self.assertNotEqual(jbbdd.precio,0)
+        self.assertEqual(jbbdd.precio,0.0)
 
     def test_toolbuscajuegoswitch(self):
         juego = Juego(id=1,title="jdasdhas",consola="nsw")
@@ -261,5 +287,9 @@ class CanalduraciondeTests(TestCase):
 
     def test_search(self):
         salida=duracionde.search("control")
-        self.assertEqual(salida["lista"]["id"],"control")
+        self.assertEqual(salida["lista"][0]["id"],"control")
 
+class JuegosRestTests(TestCase):
+    def test_listjuegos(self):
+        response = self.client.get('/juegos/rest/v0/juegos/')
+        self.assertEqual(response.status_code, 200)

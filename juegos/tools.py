@@ -49,7 +49,7 @@ def toolcargaps4(cookieps4=""):
             # except (KeyError, Juego.DoesNotExist):
             except:
                 # Redisplay the question voting form.
-                j = Juego(idexterno=transaction["entitlementId"],title=transaction["name"], tipo="d",consola="ps4",image=transaction["image"]["url"])
+                j = Juego(idexterno=transaction["entitlementId"],title=transaction["name"], tipo="d",consola=transaction["platform"].lower(),image=transaction["image"]["url"])
                 j.save()
             else:
                 print("existe",transaction["name"])
@@ -87,19 +87,17 @@ def toolbuscajuegoswitch(juego):
     #print(juego.title)
     #search = json.loads(respuesta)
     if(len(respuesta["lista"])!=0):
-        sdetalle=n.detail(respuesta["lista"][0]["detail"])
-        detalle = json.loads(sdetalle)
+        detalle=n.detail(respuesta["lista"][0]["detail"])
         juego.image=respuesta["lista"][0]["thumb"]
         juego.tamano=detalle["tamano"]
         juego.save()
 
 def tooldetactualiza(juego_id,url,plataforma):
     if plataforma == 'nsw':
-        respuesta=n.detail(url)
-        detalle = json.loads(respuesta)
+        detalle=n.detail(url)
         jbbdd = Juego.objects.get(id=juego_id)
         jbbdd.tamano=detalle["tamano"]
-        jbbdd.image=detalle["imagen"]
+        jbbdd.image=detalle["thumb"]
         jbbdd.save()
     elif plataforma == 'ps4':
         cadena="0"

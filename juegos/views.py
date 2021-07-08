@@ -26,16 +26,11 @@ def index(request):
 
 
 
-class DetailView(generic.DetailView):
-    model = Juego
-    template_name = 'juegos/detail.html'
-
 def detail(request, pk):
     context = {
         'id': pk
     }
-    return render(request, 'juegos/detail.html', context)
-
+    return render(request, 'juegos/detail.html',context)
 def tools(request):
     context = {}
     return render(request, 'juegos/tools.html', context)

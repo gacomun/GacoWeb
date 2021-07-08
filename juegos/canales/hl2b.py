@@ -2,6 +2,10 @@ from bs4 import BeautifulSoup
 import http.client
 import requests
 import sys
+import logging
+
+# Create a logger for this file
+logger = logging.getLogger(__file__)
 
 def limpiatexto(cadena):
   cadena = cadena.replace("\t", "")
@@ -28,7 +32,7 @@ def tratatiempo(cadena):
     elif "--" in cadena:
       cadena="0"
     else:
-      print("No coincide "+ cadena)
+      logger.warn("No coincide "+ cadena)
   except:
     cadena="0"
 
@@ -84,7 +88,7 @@ def search(title=""):
             'tiempos':tiempos['tiempos']
           })
         except:
-          print("hl2b -> search: Error procesando "+title)
+          logger.error("Error procesando "+title)
     return caracteristicas
 
 def detail(url=""):

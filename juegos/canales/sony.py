@@ -39,12 +39,15 @@ def search(title):
         for media in juego["media"]:
             if media["role"] == "MASTER":
                 thumb=media["url"]
+        consola="ps4"
+        if len(juego["platforms"]) >0:
+            consola=juego["platforms"][0].lower()
         respuesta['lista'].append({
             'titulo': juego["name"],
             'thumb':thumb,
             'id': juego["id"],
             'detail':"https://store.playstation.com/es-es/product/"+juego["id"],
-            'consola':'ps4'
+            'consola':consola
             })
 
     return respuesta
