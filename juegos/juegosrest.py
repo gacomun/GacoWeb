@@ -13,7 +13,7 @@ logger = logging.getLogger(__file__)
 @api_view(['GET', 'POST', 'DELETE'])
 def juego_list(request):
     if request.method == 'GET':
-        logger.info("listJuegos")
+        logger.info("Inicio listJuegos")
         items = Juego.objects.all()
         # items_data = serializers.serialize("json", Juego.objects.all())
 
@@ -84,7 +84,7 @@ def juego_list(request):
             j.imagen=imagen
         if 'consola' in request.data:
             j.consola=request.data['consola']
-            if j.idValidConsola() == False :
+            if j.isValidConsola() == False :
                 error+='valor consola no valida,'
         else:
             error+='consola,'
@@ -225,3 +225,20 @@ def juego_detail_actualiza(request, pk):
         else:
             data = {"message": "Error en actualizar juego: Campo obligatorio detalle"}
             return JsonResponse(data, status=400)
+
+@api_view(['GET'])
+def tools_duplicados_list(request):
+    if request.method == 'GET':
+        porc=100
+        if 'porcentaje' in request.data:
+            porc=int(request.data["porcentaje"])
+        try:
+            t.toolduplicados(porc)
+
+            data = {"message": "Actualización Precios realizada correctamente."}
+            return JsonResponse(data, status=200)
+        except: 
+            msg="Error en actualización de precios: Error tecnico"
+            logger.exception(msg)
+            data = {"message": msg}
+            return JsonResponse(data, status=500)

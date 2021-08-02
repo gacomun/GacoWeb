@@ -112,7 +112,7 @@ class Juego(models.Model):
                 'ratio':self.getratio()
 
                 })
-    def idValidConsola(self):
+    def isValidConsola(self):
         dev=False
         if self.consola == "nsw":
             dev=True
@@ -124,4 +124,38 @@ class Juego(models.Model):
             dev=True
         else:
             dev=False
+        return dev
+    def getPorcentaje(self, item):
+        dev=0
+        cuenta=0
+
+        # if self.id==item.id:
+        #     cuenta=cuenta+1
+        if self.idexterno==item.idexterno:
+            cuenta=cuenta+1
+        if self.title==item.title:
+            cuenta=cuenta+1
+        if self.image==item.image:
+            cuenta=cuenta+1
+        if self.tamano==item.tamano:
+            cuenta=cuenta+1
+        if self.tipo==item.tipo:
+            cuenta=cuenta+1
+        if self.consola==item.consola:
+            cuenta=cuenta+1
+        if self.tiempo==item.tiempo:
+            cuenta=cuenta+1
+        if self.terminado==item.terminado:
+            cuenta=cuenta+1
+        if self.visible==item.visible:
+            cuenta=cuenta+1
+        if self.venta==item.venta:
+            cuenta=cuenta+1
+        if self.precio==item.precio:
+            cuenta=cuenta+1
+        if self.idPrecio==item.idPrecio:
+            cuenta=cuenta+1
+        if self.estado==item.estado:
+            cuenta=cuenta+1
+        dev=(100*cuenta)/13
         return dev

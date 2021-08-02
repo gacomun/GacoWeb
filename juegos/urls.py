@@ -34,10 +34,12 @@ urlpatterns = [
     path('rest/v0/canales/<str:canal>', rest.canal_detail),
     # ex: GET/juegos/rest/v0/tools/carga
     path('rest/v0/tools/carga', rest.tools_carga_list),
-    # ex: rest/v0/tools/actualiza
+    # ex: /juegos/rest/v0/tools/actualiza
     path('rest/v0/tools/actualiza', rest.tools_actualiza_list),
-    # ex: rest/v0/tools/tools/precios
+    # ex: /juegos/rest/v0/tools/tools/precios
     path('rest/v0/tools/precios', rest.tools_precios_list),
+    # ex: /juegos/rest/v0/tools/tools/duplicados
+    path('rest/v0/tools/duplicados', rest.tools_duplicados_list),
 
 
 ]

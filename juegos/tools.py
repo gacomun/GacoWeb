@@ -20,16 +20,17 @@ def toolcargaswitch(cookieSwitch=""):
         pagekey+=paso
         #print(trans["transactions"]) 
         for transaction in trans["transactions"]:
-            #print(transaction["title"])
+            logger.debug(transaction["title"])
             try:
-                jbbdd = Juego.objects.get(idexterno=transaction["transaction_id"])
+                jbbdd = Juego.objects.get(idexterno=transaction["transaction_id"],tipo="d")
             except (KeyError, Juego.DoesNotExist):
-                # Redisplay the question voting form.
+                logger.warn("No existe "+transaction["title"])
                 j = Juego(idexterno=transaction["transaction_id"],title=transaction["title"], tipo="d",consola="nsw")
                 j.save()
                 toolbuscajuegoswitch(j)
+            except (KeyError, Juego.MultipleObjectsReturned):
+                logger.error("existen varios "+transaction["title"])
             else:
-                print("existe",transaction["title"])
                 continue
 
 def toolcargaps4(cookieps4=""):
@@ -43,16 +44,16 @@ def toolcargaps4(cookieps4=""):
         total=trans["data"]["purchasedTitlesRetrieve"]["pageInfo"]["totalCount"]
         pagekey+=paso
         for transaction in trans["data"]["purchasedTitlesRetrieve"]["games"]:
-            #print(transaction["title"])
+            logger.debug(transaction["name"])
             try:
-                jbbdd = Juego.objects.get(idexterno=transaction['entitlementId'])
-            # except (KeyError, Juego.DoesNotExist):
-            except:
-                # Redisplay the question voting form.
+                jbbdd = Juego.objects.get(idexterno=transaction['entitlementId'],tipo='d')
+            except (KeyError, Juego.DoesNotExist):
+                logger.warn("No existe "+transaction["name"])
                 j = Juego(idexterno=transaction["entitlementId"],title=transaction["name"], tipo="d",consola=transaction["platform"].lower(),image=transaction["image"]["url"])
                 j.save()
+            except (KeyError, Juego.MultipleObjectsReturned):
+                logger.error("existen varios "+transaction["name"])
             else:
-                print("existe",transaction["name"])
                 continue
 
 def toolactualizajuegos():
@@ -79,7 +80,7 @@ def toolactualizajuegos():
                     juego.precio=respuesta["response"]["data"]["boxDetails"][0]["sellPrice"]
                     juego.save()
         except: 
-            print("Error procesando "+juego.title)
+            logger.error("Error procesando "+juego.title)
 
 
 def toolbuscajuegoswitch(juego):
@@ -124,4 +125,17 @@ def toolpreciojuegos():
                 juego.precio=respuesta["response"]["data"]["boxDetails"][0]["sellPrice"]
                 juego.save()
         except:
-            print("Error procesando "+juego.title)
+            logger.error("Error procesando "+juego.title)
+
+def toolduplicados(porc):
+    logger.info("Inicio toolduplicados")
+    items = Juego.objects.all()
+    for juego in items:
+        for juego2 in items:
+            if juego.id != juego2.id:
+                result=juego.getPorcentaje(juego2)
+                if result >= porc:
+                    logger.info("("+str(juego.id)+") "+juego.title+" vs ("+str(juego2.id)+") "+juego2.title+" -> "+str(result)+" %")
+                    Juego.objects.get(id=juego2.id).delete()
+    logger.info("Fin toolduplicados")
+

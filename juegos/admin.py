@@ -6,4 +6,4 @@ from .models import Juego
 class JuegoAdmin(admin.ModelAdmin):
     list_display = ('title','tipo', 'consola')
     list_filter = ('tipo', 'consola','terminado','visible')
-    search_fields = ['title','tamano']
+    search_fields = ['title','tamano',"idexterno"]
