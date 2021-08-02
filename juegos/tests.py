@@ -253,6 +253,11 @@ class ToolsTests(TestCase):
         juego = Juego.objects.get(id=2)
         self.assertNotEqual(juego.image,"")
         self.assertNotEqual(juego.tamano,0)
+        t.tooldetactualiza(2,"https://www.nintendo.es//Juegos/Programas-descargables-Nintendo-Switch/Sky-Ninios-de-la-Luz-1742945.html","nsw")
+        juego = Juego.objects.get(id=2)
+        self.assertNotEqual(juego.image,"")
+        self.assertNotEqual(juego.tamano,0)
+        
 
     def test_tooldetactualizatiempo(self):
         juego = Juego(id=3)

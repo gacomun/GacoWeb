@@ -116,11 +116,11 @@ class Juego(models.Model):
         dev=False
         if self.consola == "nsw":
             dev=True
-        if self.consola == "ps4":
+        elif self.consola == "ps4":
             dev=True
-        if self.consola == "ps5":
+        elif self.consola == "ps5":
             dev=True
-        if self.consola == "3ds":
+        elif self.consola == "3ds":
             dev=True
         else:
             dev=False
