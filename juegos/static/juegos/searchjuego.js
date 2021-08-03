@@ -143,7 +143,7 @@ function getDetail(numero,elemento) {
     } else if(modo == "buscar"){
         dev+='<input type="hidden" name="detalle'+numero+'" id="detalle'+numero+'" value="'+elemento.detail+'"><button type="submit" class="btn btn-primary" onclick="procesarBuscar('+numero+')">Procesar</button>';
     } else if(modo == "precio"){
-        dev+='<button type="submit" class="btn btn-primary" onclick="procesarPrecio('+elemento.id+','+elemento.precios[0].valor+')">Procesar</button>';
+        dev+='<button type="submit" class="btn btn-primary" onclick="procesarPrecio(\''+elemento.id+'\','+elemento.precios[0].valor+')">Procesar</button>';
     }
     return dev
   }
