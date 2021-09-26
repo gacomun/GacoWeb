@@ -9,6 +9,7 @@ coverage
 sudo pip3 install coverage
 
 pip3 freeze -> para ver requeriments
+sudo apt-get install python3-setuptools
 pip3 install -r requirements.txt
 
 
