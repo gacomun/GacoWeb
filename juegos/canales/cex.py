@@ -52,3 +52,6 @@ def detail(id):
     response = requests.request("GET", url, headers=headers, data=payload)
 
     return json.loads(response.text)
+
+def ofertas(consola=""):
+    return {}

@@ -52,4 +52,7 @@ def search(title):
 
     return respuesta
 
+
+def ofertas(consola=""):
+    return {}
     

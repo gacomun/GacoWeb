@@ -1,9 +1,11 @@
-from juegos.models import Juego  # Import the model classes we just wrote.
+from juegos.models import Juego,Oferta  # Import the model classes we just wrote.
 import json
 import juegos.canales.nintendo as n
 import juegos.canales.sony as s
 import juegos.canales.hl2b as HLTB
 import juegos.canales.cex as cex
+import juegos.canales.basecom as basecom
+import juegos.canales.yambalu as yambalu
 import sys
 import logging
 
@@ -127,15 +129,46 @@ def toolpreciojuegos():
         except:
             logger.error("Error procesando "+juego.title)
 
-def toolduplicados(porc):
-    logger.info("Inicio toolduplicados")
-    items = Juego.objects.all()
-    for juego in items:
-        for juego2 in items:
-            if juego.id != juego2.id:
-                result=juego.getPorcentaje(juego2)
-                if result >= porc:
-                    logger.info("("+str(juego.id)+") "+juego.title+" vs ("+str(juego2.id)+") "+juego2.title+" -> "+str(result)+" %")
-                    Juego.objects.get(id=juego2.id).delete()
-    logger.info("Fin toolduplicados")
 
+def toolofertas(canal=""):
+    logger.info("Inicio toolofertas ->"+canal)
+    Oferta.objects.all().delete()
+    if canal=="basecom" or canal=="":
+        logger.info("Inicio basecom")
+        ofertas=basecom.ofertas("")
+        for oferta in ofertas["lista"]:
+            try:
+                jbbdd = Oferta.objects.get(title=oferta["titulo"],consola=oferta["consola"])
+                jbbdd.pBase=oferta["precio"]
+                jbbdd.dBase=oferta["descuento"]
+                jbbdd.detBase=oferta["detail"]
+                jbbdd.save()                
+            except (KeyError, Oferta.DoesNotExist):
+                o = Oferta(title=oferta["titulo"],image=oferta["thumb"], pBase=oferta["precio"],dBase=oferta["descuento"],consola=oferta["consola"],detBase=oferta["detail"])
+                o.save()
+            except (KeyError, Oferta.MultipleObjectsReturned):
+                logger.error("existen varios "+oferta["titulo"]+"("+oferta["consola"]+")")
+            else:
+                continue
+        logger.info("Fin basecom")
+    if canal=="yambalu" or canal=="":
+        logger.info("Inicio yambalu")
+        # Oferta.objects.filter(canal=1).delete()
+        ofertas=yambalu.ofertas("")
+        for oferta in ofertas["lista"]:
+            try:
+                jbbdd = Oferta.objects.get(title__contains=oferta["titulo"],consola=oferta["consola"])
+                jbbdd.pYambalu=oferta["precio"]
+                jbbdd.dYambalu=oferta["descuento"]
+                jbbdd.detYambalu=oferta["detail"]
+                jbbdd.save()                
+            except (KeyError, Oferta.DoesNotExist):
+                o = Oferta(title=oferta["titulo"],image=oferta["thumb"], pYambalu=oferta["precio"],consola=oferta["consola"],detYambalu=oferta["detail"],dYambalu=oferta["descuento"])
+                o.save()
+            except (KeyError, Oferta.MultipleObjectsReturned):
+                logger.error("existen varios "+oferta["titulo"]+"("+oferta["consola"]+")")
+            else:
+                continue
+        logger.info("Fin yambalu")
+
+    logger.info("Fin toolofertas")

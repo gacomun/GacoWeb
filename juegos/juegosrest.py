@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from .models import Juego 
+from .models import Juego,Oferta 
 from rest_framework.decorators import api_view
 from rest_framework import status
 import importlib
@@ -227,18 +227,48 @@ def juego_detail_actualiza(request, pk):
             return JsonResponse(data, status=400)
 
 @api_view(['GET'])
-def tools_duplicados_list(request):
+def ofertas_list(request):
     if request.method == 'GET':
-        porc=100
-        if 'porcentaje' in request.data:
-            porc=int(request.data["porcentaje"])
-        try:
-            t.toolduplicados(porc)
+        logger.info("Inicio listOfertas")
+        items = Oferta.objects.all()
+        title = request.query_params.get('title', None)
+        if title is not None:
+            items=items.filter(title__contains=title)
+        # canal=request.query_params.get('canal', None)
+        # if canal is not None:
+        #     items=items.filter(canal=int(canal))
+        consola=request.query_params.get('consola', None)
+        if consola is not None:
+            items=items.filter(consola=consola)
+        order=request.query_params.get('$orderby', None)
+        if order is not None:
+            direccion="-"
+            order = order.replace(" desc", "")
+            if " asc" in order:
+                direccion=""
+                order = order.replace(" asc", "")
+            items = items.order_by(direccion+order)
+        items_count = len(items)
+        items_data = []
+        for item in items:
+            items_data.append(item.toJson())
+        data = {
+            'count': items_count,
+            'items': items_data
+        }
+        return JsonResponse(data)
 
-            data = {"message": "Actualización Precios realizada correctamente."}
-            return JsonResponse(data, status=200)
-        except: 
-            msg="Error en actualización de precios: Error tecnico"
-            logger.exception(msg)
-            data = {"message": msg}
-            return JsonResponse(data, status=500)
+@api_view(['GET'])
+def tools_ofertas_list(request):
+    try:
+        canal = request.query_params.get('canal', None)
+        if canal is None:
+            canal=""
+        t.toolofertas(canal)
+        data = {"message": "Actualización Ofertas realizada correctamente."}
+        return JsonResponse(data, status=200)
+    except: 
+        msg="Error en actualización de ofertas: Error tecnico"
+        logger.exception(msg)
+        data = {"message": msg}
+        return JsonResponse(data, status=500)

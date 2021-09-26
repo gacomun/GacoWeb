@@ -3,20 +3,14 @@ import http.client
 import requests
 import sys
 import logging
+import juegos.canales.tools as tools
 
 # Create a logger for this file
 logger = logging.getLogger(__file__)
 
-def limpiatexto(cadena):
-  cadena = cadena.replace("\t", "")
-  cadena = cadena.replace("\n", "")
-  cadena = cadena.replace("™", "")
-  cadena = cadena.replace("®", "")
-  return cadena
-
 def tratatiempo(cadena):
   try:
-    cadena = limpiatexto(cadena)
+    cadena = tools.limpiatexto(cadena)
     if "½" in cadena:
       cadena = cadena.replace("½", ".5")
     if "Hours" in cadena:
@@ -43,7 +37,7 @@ def search(title=""):
     caracteristicas={}
 
     conn = http.client.HTTPSConnection("howlongtobeat.com")
-    payload = 'queryString='+limpiatexto(title)+'&t=games&sorthead=popular&sortd=Normal%20Order&plat=&length_type=main&length_min=&length_max=&v=&f=&g=&detail=&randomize=0'
+    payload = 'queryString='+tools.limpiatexto(title)+'&t=games&sorthead=popular&sortd=Normal%20Order&plat=&length_type=main&length_min=&length_max=&v=&f=&g=&detail=&randomize=0'
     headers = {
     'Host': 'howlongtobeat.com',
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0',
@@ -81,7 +75,7 @@ def search(title=""):
                   })
                   par=False
           caracteristicas['lista'].append({
-            'titulo': limpiatexto(nombre),
+            'titulo': tools.limpiatexto(nombre),
             'thumb':thumb,
             'id': id,
             'detail':detail,
@@ -122,8 +116,11 @@ def detail(url=""):
         'valor': valor
     })
   caracteristicas['lista'].append({
-  'titulo': limpiatexto(nombre),
+  'titulo': tools.limpiatexto(nombre),
   'tiempos':tiempos['tiempos']
   })
       # print(dato.string)
   return caracteristicas
+
+def ofertas(consola=""):
+    return {}

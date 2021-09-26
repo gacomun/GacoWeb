@@ -110,3 +110,6 @@ def detail(title=""):
         "consola":consola
     }
     return(data)
+
+def ofertas(consola=""):
+    return {}

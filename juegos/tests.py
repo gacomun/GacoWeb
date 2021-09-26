@@ -162,14 +162,6 @@ class CanalSonyTests(TestCase):
 import juegos.canales.hl2b as HLTB
 class Canalhl2bTests(TestCase):
 
-    def test_limpiatexto(self):
-        cadena=HLTB.limpiatexto("\t\n\t\n")
-        self.assertEqual(cadena,"")
-        cadena=HLTB.limpiatexto("")
-        self.assertEqual(cadena,"")
-        cadena=HLTB.limpiatexto("a\t\nb\t\nc")
-        self.assertEqual(cadena,"abc")
-
     def test_tratatiempo(self):
         cadena=HLTB.tratatiempo("1½ Hours")
         self.assertEqual(cadena,"90.0")
@@ -272,6 +264,8 @@ class ToolsTests(TestCase):
         juego.title="Control"
         juego.save()
         t.toolpreciojuegos()
+    def test_toolofertas(self):
+        t.toolofertas("")
 
 import juegos.canales.cex as cex
 class CanalcexTests(TestCase):
@@ -298,3 +292,62 @@ class JuegosRestTests(TestCase):
     def test_listjuegos(self):
         response = self.client.get('/juegos/rest/v0/juegos/')
         self.assertEqual(response.status_code, 200)
+
+import juegos.canales.basecom as basecom
+class CanalbasecomTests(TestCase):
+
+    def test_search(self):
+        salida=basecom.search("")
+        self.assertTrue(salida)
+    def test_detail(self):
+        salida=basecom.detail("")
+        self.assertTrue(salida)
+    def test_ofertas(self):
+        salida=basecom.ofertas("")
+        self.assertTrue(salida)
+        salida=basecom.ofertas("nsw")
+        self.assertTrue(salida)
+        salida=basecom.ofertas("ps4")
+        self.assertTrue(salida)
+        salida=basecom.ofertas("ps5")
+        self.assertTrue(salida)
+    def test_trataPagina(self):
+        ofertas={}
+        ofertas['lista'] = []
+        salida=basecom.trataPagina("https://www.base.com/games/playstation/bestseller/pg735/bn10009009/games.htm","?filter=a%3a568%3a385582&pgCMG735%2D2=3","ps4",ofertas)
+
+import juegos.canales.tools as ctools
+class CanalToolsTests(TestCase):
+
+    def test_limpiatexto(self):
+        cadena=ctools.limpiatexto("\t\n\t\n£")
+        self.assertEqual(cadena,"")
+        cadena=ctools.limpiatexto("")
+        self.assertEqual(cadena,"")
+        cadena=ctools.limpiatexto("a\t\nb\t\nc£d")
+        self.assertEqual(cadena,"abcd")
+    # def test_getexchangerate(self):
+    #     salida=ctools.getexchangerate("GBP","EUR")
+
+import juegos.canales.yambalu as yambalu
+class CanalyambaluTests(TestCase):
+
+    def test_search(self):
+        salida=yambalu.search("")
+        self.assertTrue(salida)
+    def test_detail(self):
+        salida=yambalu.detail("")
+        self.assertTrue(salida)
+    def test_ofertas(self):
+        salida=yambalu.ofertas("")
+        self.assertTrue(salida)
+        salida=yambalu.ofertas("nsw")
+        self.assertTrue(salida)
+        salida=yambalu.ofertas("ps4")
+        self.assertTrue(salida)
+        salida=yambalu.ofertas("ps5")
+        self.assertTrue(salida)
+    def test_trataPagina(self):
+        ofertas={}
+        ofertas['lista'] = []
+        salida=basecom.trataPagina("","","ps4",ofertas)

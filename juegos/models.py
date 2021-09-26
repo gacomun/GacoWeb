@@ -1,4 +1,6 @@
 from django.db import models
+import juegos.commons as commons
+
 
 
 class Juego(models.Model):
@@ -159,3 +161,60 @@ class Juego(models.Model):
             cuenta=cuenta+1
         dev=(100*cuenta)/13
         return dev
+
+class Oferta(models.Model):
+    id = models.IntegerField
+    title = models.CharField(max_length=200,null=True)
+    image = models.CharField(max_length=200, null=True, default='', blank=True)
+    pBase = models.FloatField(default=0.0) 
+    dBase = models.FloatField(default=0.0) 
+    detBase = models.CharField(max_length=200,null=True)
+    pYambalu = models.FloatField(default=0.0) 
+    dYambalu = models.FloatField(default=0.0) 
+    detYambalu = models.CharField(max_length=200,null=True)
+    ENUM_CONSOLA = (
+        ('nsw', 'SWITCH'),
+        ('ps4', 'PS4'),
+        ('ps5', 'PS5'),
+    )
+    consola = models.CharField(
+        max_length=3,
+        choices=ENUM_CONSOLA,
+        blank=True)
+    def toJson(self):
+        return ({
+                'id': self.id,
+                'title': self.title,
+                'image': self.image,
+                'basecom':{
+                    'precio': commons.formatea2dec(self.pBase),
+                    'descuento': commons.formatea2dec(self.dBase),
+                    'detail':self.detBase
+                    
+                },
+                'yambalu':{
+                    'precio': commons.formatea2dec(self.pYambalu),
+                    'descuento': commons.formatea2dec(self.dYambalu),
+                    'detail':self.detYambalu
+                    
+                },
+                'consola': {
+                    'id':self.consola,
+                    'descripcion':self.getconsola()
+                    },
+
+                })
+
+    def getconsola(self):
+        if self.consola == "nsw":
+            return "Switch"
+        if self.consola == "ps4":
+            return "PS4"
+        if self.consola == "ps5":
+            return "PS5"
+        else:
+            return "Sin texto"
+
+class Property(models.Model):
+    clave = models.CharField(max_length=200, unique=True)
+    valor = models.CharField(max_length=200,null=True, blank=True)

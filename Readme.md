@@ -7,3 +7,10 @@ sudo chmod +777 /usr/local/bin/geckodriver
 
 coverage
 sudo pip3 install coverage
+
+pip3 freeze -> para ver requeriments
+pip3 install -r requirements.txt
+
+
+Variable necesarias en Tabla Property
+    exchangerate-api.apikey -> con el api key de "https://app.exchangerate-api.com/"

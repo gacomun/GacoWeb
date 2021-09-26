@@ -5,3 +5,4 @@ lxml
 #gunicorn
 djangorestframework==3.12.4
 django-cors-headers==3.7.0
+django-crontab==0.7.1

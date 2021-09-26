@@ -1,0 +1,71 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% load static %}
+  <script src="{% static 'ofertas/index.js' %}"></script>
+
+<legend>Filtros</legend>
+    {% csrf_token %} 
+    <div class="row g-3">
+        <div class="col-sm">
+          <input type="text" class="form-control" placeholder="Titulo" aria-label="Titulo" id="titulo" name="titulo" value="{{ filtro.titulo }}">
+        </div>
+        <div class="col-auto">
+          Consola
+          <select class="form-select form-select-sm" id="consola" name="consola" value="{{ filtro.consola }}">
+            <option value="">Todos</option>
+            <option value="nsw">Switch</option>
+            <option value="ps4">PS4</option>
+            <option value="ps5">PS5</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          Ordenar
+          <div class="radio">
+            <label>
+              <input type="radio" name="opciones" id="opciones_1" value="title">
+              Titulo
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="opciones" id="opciones_2" value="pBase">
+              Base.com Precio
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="opciones" id="opciones_3" value="dBase" checked>
+              Base.com Descuento
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="opciones" id="opciones_2" value="pYambalu">
+              Yambalu Precio
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="opciones" id="opciones_3" value="dYambalu">
+              Yambalu Descuento
+            </label>
+          </div>
+        </div>
+        <div class="col-auto">
+          <div class="radio">
+            <label>
+              <input type="radio" name="updown" id="updown_1" value=" asc">
+              Ascendente
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="updown" id="updown_2" value=" desc" checked>
+              Descendente
+            </label>
+          </div>
+        </div>
+      </div>
+    <button type="button" class="btn btn-primary" onclick="listofertas()">Submit</button>   
+  
+{% endblock %}

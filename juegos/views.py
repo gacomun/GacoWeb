@@ -122,3 +122,6 @@ def canalsearch(request):
             'id': id
         }
         return render(request, 'juegos/searchjuego.html',context)
+
+def ofertasindex(request):
+    return render(request, 'ofertas/index.html')

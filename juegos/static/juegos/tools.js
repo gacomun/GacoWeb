@@ -83,3 +83,28 @@ function tools_precios(){
             document.getElementById("spinner").style="visibility: hidden"
         });
 }
+
+function tools_ofertas(){
+  document.getElementById("spinner").style=""
+  var settings = {
+      "url": "/juegos/rest/v0/tools/ofertas",
+      "method": "GET",
+      "timeout": 0,
+    };
+    
+    $.ajax(settings).done(function (response) {
+      msg=response.message;
+      setMensaje("OK",msg,document.getElementById("msg"))
+    }).fail(function(data, textStatus, xhr) {
+      var msg="Actualización Incorrecta."          
+      if (data.status != 500){
+        msg=data.responseJSON.message;
+      }
+      setMensaje("ERROR",msg,document.getElementById("msg"))
+      //This shows status code eg. 403
+      //This shows status message eg. Forbidden
+      console.log(data.status, xhr);
+      }).always(function() {
+          document.getElementById("spinner").style="visibility: hidden"
+      });
+}

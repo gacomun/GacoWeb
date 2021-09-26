@@ -21,6 +21,8 @@ urlpatterns = [
     # path('<int:juego_id>/searchjuego', views.detsearchjuego, name='detsearchjuego'),
     # ex: /juegos/canales/search
     path('canales/search', views.canalsearch, name='canalsearch'),
+    # ex: /juegos/ofertas
+    path('ofertas/', views.ofertasindex, name='ofertasindex'),
 
 
     # REST
@@ -39,7 +41,11 @@ urlpatterns = [
     # ex: /juegos/rest/v0/tools/tools/precios
     path('rest/v0/tools/precios', rest.tools_precios_list),
     # ex: /juegos/rest/v0/tools/tools/duplicados
-    path('rest/v0/tools/duplicados', rest.tools_duplicados_list),
+    #path('rest/v0/tools/duplicados', rest.tools_duplicados_list),
+    # ex: /juegos/rest/v0/ofertas
+    path('rest/v0/ofertas/', rest.ofertas_list),
+    # ex: /juegos/rest/v0/tools/ofertas
+    path('rest/v0/tools/ofertas', rest.tools_ofertas_list),
 
 
 ]

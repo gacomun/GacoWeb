@@ -32,6 +32,17 @@
                 "juegos"
             ],
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Tests especifico",
+            "type": "python",
+            "request": "launch",
+            "program": "manage.py",
+            "args": [
+                "test",
+                "juegos.tests.ToolsTests.test_toolofertas"
+            ],
+            "console": "integratedTerminal"
         }
 
     ]

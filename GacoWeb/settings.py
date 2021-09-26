@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     # Django rest framework
     'rest_framework',
     #django cors
-    'corsheaders'
+    'corsheaders',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -163,3 +164,9 @@ LOGGING = {
         },
     },
 }
+
+CRONJOBS = [
+    ('40 12 * * *', 'juegos.cron.precios_job'),
+    ('42 12 * * *', 'juegos.cron.ofertas_job'),
+    ('*/1 * * * *', 'juegos.cron.borrar_job'),
+]

@@ -46,3 +46,7 @@ def search(title=""):
 def detail(id):
     
     return json.loads({})
+
+
+def ofertas(consola=""):
+    return {}
