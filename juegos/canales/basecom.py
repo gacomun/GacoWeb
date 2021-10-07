@@ -5,8 +5,8 @@ import juegos.canales.tools as tools
 
 # Create a logger for this file
 logger = logging.getLogger(__file__)
-#cambio=1.1767
-cambio=tools.getexchangerate("GBP","EUR")
+cambio=1.1767
+#cambio=tools.getexchangerate("GBP","EUR")
 
 def tratar_title(cadena):
     cadena=cadena.replace("(PS5)","")

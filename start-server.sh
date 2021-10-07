@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # start-server.sh
+sh makemigrate.sh
 if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ] ; then
-    (python3 manage.py createsuperuser --no-input)
+    (python manage.py createsuperuser --no-input)
 fi
-(gunicorn martor_demo.wsgi --user www-data --bind 0.0.0.0:8010 --workers 3) &
+python manage.py collectstatic
+(gunicorn GacoWeb.wsgi --user root --bind 0.0.0.0:8010 --workers 3) &
 nginx -g "daemon off;"

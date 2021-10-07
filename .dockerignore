@@ -1,0 +1,14 @@
+./data/db.sqlite3
+./log/debug.log
+./static
+./Dockerfile*
+./__pycache__
+./vscode/*
+./.git/*
+./coveragetest.sh
+./crearuser.sh
+./docker*.sh
+./r*.sh
+./t*.sh
+./.coverage
+./htmlcov
