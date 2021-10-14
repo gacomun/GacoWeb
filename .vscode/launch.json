@@ -40,7 +40,7 @@
             "program": "manage.py",
             "args": [
                 "test",
-                "juegos.tests.ToolsTests.test_toolofertas"
+                "juegos.tests.OfertaModelTests"
             ],
             "console": "integratedTerminal"
         }

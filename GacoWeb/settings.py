@@ -22,10 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'msi3%x8#^cv)3o212sgp^7(b0!0_ncc0lnntbvi(@m(0olxuws'
+#SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = False
+#DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -44,7 +46,6 @@ INSTALLED_APPS = [
     'rest_framework',
     #django cors
     'corsheaders',
-    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -168,8 +169,3 @@ LOGGING = {
     },
 }
 
-CRONJOBS = [
-    ('40 12 * * *', 'juegos.cron.precios_job'),
-    ('42 12 * * *', 'juegos.cron.ofertas_job'),
-    ('*/1 * * * *', 'juegos.cron.borrar_job'),
-]

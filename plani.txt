@@ -1,0 +1,13 @@
+# do daily/weekly/monthly maintenance
+# min	hour	day	month	weekday	command
+#*/15	*	*	*	*	run-parts /etc/periodic/15min
+#0	*	*	*	*	run-parts /etc/periodic/hourly
+#0	2	*	*	*	run-parts /etc/periodic/daily
+#0	3	*	*	6	run-parts /etc/periodic/weekly
+#0	5	1	*	*	run-parts /etc/periodic/monthly
+#*/1	*	*	*	*	/GacoUtilsJob/consulta.sh
+0	0	*	*	*	cd /GacoWeb;/usr/local/bin/python manage.py precios 1> /GacoWeb/log/sjok.log 2> /GacoWeb/log/sjerr.log
+5	0	*	*	*	cd /GacoWeb;/usr/local/bin/python manage.py ofertas 1> /GacoWeb/log/sjok.log 2> /GacoWeb/log/sjerr.log
+#10	0	*	*	*	/GacoUtilsJob/runjob.sh -gacobbddus
+##15	0	*	*	*	/GacoUtilsJob/runjob.sh -gacobbddsearch
+#0	0	*	*	*	/GacoUtilsJob/runjob.sh -gacobbddbackup

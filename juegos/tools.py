@@ -114,6 +114,7 @@ def tooldetactualizatiempo(juego_id,url):
     jbbdd.save()
 
 def toolpreciojuegos():
+    logger.info("Inicio toolpreciojuegos")
     lista=Juego.objects.all()
     for juego in lista:
         try:
