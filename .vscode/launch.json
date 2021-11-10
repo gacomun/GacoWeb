@@ -11,7 +11,7 @@
             "program": "manage.py",
             "args": [
                 "runserver",
-                "192.168.1.75:8010"
+                "192.168.1.75:8020"
             ],
             "console": "integratedTerminal"
         },

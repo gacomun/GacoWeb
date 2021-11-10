@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 import importlib
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator
 import juegos.tools as t
 import logging
 
@@ -14,29 +15,37 @@ logger = logging.getLogger(__file__)
 def juego_list(request):
     if request.method == 'GET':
         logger.info("Inicio listJuegos")
+        filtros=""
         items = Juego.objects.all()
         # items_data = serializers.serialize("json", Juego.objects.all())
 
         title = request.query_params.get('title', None)
         if title is not None:
+            filtros+="title="+title+"&"
             items=items.filter(title__contains=title)
         tipo=request.query_params.get('tipo', None)
         if tipo is not None:
+            filtros+="tipo="+tipo+"&"
             items=items.filter(tipo=tipo)
         consola=request.query_params.get('consola', None)
         if consola is not None:
+            filtros+="consola="+consola+"&"
             items=items.filter(consola=consola)
         end=request.query_params.get('end', None)
         if end is not None:
+            filtros+="end="+end+"&"
             items=items.filter(terminado=end)
         venta=request.query_params.get('venta', None)
         if venta is not None:
+            filtros+="venta="+venta+"&"
             items=items.filter(venta=venta)
         visible=request.query_params.get('visible', None)
         if visible is not None:
+            filtros+="visible="+visible+"&"
             items=items.filter(visible=visible)
         order=request.query_params.get('$orderby', None)
         if order is not None:
+            filtros+="$orderby="+order+"&"
             if "ratio" in order:
                 ratioord=False
                 if " desc" in order:
@@ -51,21 +60,49 @@ def juego_list(request):
                 items = items.order_by(direccion+order)
         ratio = request.query_params.get('ratio', None)
         if ratio is not None:
+            filtros+="ratio="+ratio+"&"
             juegos_temp=[]
             for juego in items:
                 if ratio in str(juego.getratio()):
                     juegos_temp.append(juego)
             items=juegos_temp
-        items_count = len(items)
         items_data = []
         for item in items:
             items_data.append(item.toJson())
 
+        # data = {
+        #     'count': items_count,
+        #     'items': items_data
+        # }
+        limit = request.query_params.get('limit', None)
+        if limit is None:
+            limit=20
+        filtros+="limit="+limit+"&"
+        p = Paginator(items_data, limit)
+        page = request.query_params.get('page', None)
+        if page is None:
+            page=1
+        if(int(page)>p.num_pages or int(page)<1):
+            data = {"message": "Error en filtros: page debe ser mayor que 0 y hasta "+str(p.num_pages)}
+            return JsonResponse(data, status=400)
+        page1 = p.page(int(page))
+        snext="/juegos/rest/v0/juegos/?page="+str(int(page)+1)+"&"+filtros
+        if(int(page)==p.num_pages):
+            snext=""
+        sprev="/juegos/rest/v0/juegos/?page="+str(int(page)-1)+"&"+filtros
+        if(int(page)==1):
+            sprev=""
         data = {
-            'count': items_count,
-            'items': items_data
+            'pagination':{
+                'count': p.count,
+                'numPages': p.num_pages,
+                'first':"/juegos/rest/v0/juegos/?page=1&"+filtros,
+                'last':"/juegos/rest/v0/juegos/?page="+str(p.num_pages)+"&"+filtros,
+                'next':snext,
+                'prev':sprev
+            },
+            'items': page1.object_list
         }
-
         return JsonResponse(data)
     if request.method == 'POST':
         logger.info("postJuego")
@@ -230,31 +267,60 @@ def juego_detail_actualiza(request, pk):
 def ofertas_list(request):
     if request.method == 'GET':
         logger.info("Inicio listOfertas")
+        filtros=""
         items = Oferta.objects.all()
         title = request.query_params.get('title', None)
         if title is not None:
+            filtros+="title="+title+"&"
             items=items.filter(title__contains=title)
         # canal=request.query_params.get('canal', None)
         # if canal is not None:
         #     items=items.filter(canal=int(canal))
         consola=request.query_params.get('consola', None)
         if consola is not None:
+            filtros+="consola="+consola+"&"
             items=items.filter(consola=consola)
         order=request.query_params.get('$orderby', None)
         if order is not None:
+            filtros+="$orderby="+order+"&"
             direccion="-"
             order = order.replace(" desc", "")
             if " asc" in order:
                 direccion=""
                 order = order.replace(" asc", "")
             items = items.order_by(direccion+order)
-        items_count = len(items)
+
         items_data = []
         for item in items:
             items_data.append(item.toJson())
+        limit = request.query_params.get('limit', None)
+        if limit is None:
+            limit=20
+        filtros+="limit="+limit+"&"
+        p = Paginator(items_data, limit)
+        page = request.query_params.get('page', None)
+        if page is None:
+            page=1
+        if(int(page)>p.num_pages or int(page)<1):
+            data = {"message": "Error en filtros: page debe ser mayor que 0 y hasta "+str(p.num_pages)}
+            return JsonResponse(data, status=400)
+        page1 = p.page(int(page))
+        snext="/juegos/rest/v0/ofertas/?page="+str(int(page)+1)+"&"+filtros
+        if(int(page)==p.num_pages):
+            snext=""
+        sprev="/juegos/rest/v0/ofertas/?page="+str(int(page)-1)+"&"+filtros
+        if(int(page)==1):
+            sprev=""
         data = {
-            'count': items_count,
-            'items': items_data
+            'pagination':{
+                'count': p.count,
+                'numPages': p.num_pages,
+                'first':"/juegos/rest/v0/ofertas/?page=1&"+filtros,
+                'last':"/juegos/rest/v0/ofertas/?page="+str(p.num_pages)+"&"+filtros,
+                'next':snext,
+                'prev':sprev
+            },
+            'items': page1.object_list
         }
         return JsonResponse(data)
 

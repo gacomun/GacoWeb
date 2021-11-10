@@ -17,38 +17,40 @@ def search(title=""):
     return {}
 
 def detail(title=""):
-    r = requests.get(title)
-    soup = BeautifulSoup(r.text, 'lxml')
-    titulo = soup.find('h1').text
-    regex = re.compile('caratula_juego.*')
-    thumb=soup.find("div", {"class" : regex}).find("img").attrs["src"]
-    regex = re.compile('juego_plataforma.*')
-    consola=soup.find("div", {"class" : regex}).find("img").attrs["src"]
-    consola=consola.replace(".svg","").replace("/img/icons/icon-","")
-    lprecios = soup.find('ul',id="precios_block").find_all("li")
-    precios={}
-    precios['precios'] = []
+    data = {}
+    if title!="":
+        r = requests.get(title)
+        soup = BeautifulSoup(r.text, 'lxml')
+        titulo = soup.find('h1').text
+        regex = re.compile('caratula_juego.*')
+        thumb=soup.find("div", {"class" : regex}).find("img").attrs["src"]
+        regex = re.compile('juego_plataforma.*')
+        consola=soup.find("div", {"class" : regex}).find("img").attrs["src"]
+        consola=consola.replace(".svg","").replace("/img/icons/icon-","")
+        lprecios = soup.find('ul',id="precios_block").find_all("li")
+        precios={}
+        precios['precios'] = []
 
-    for precio in lprecios:
-        regex = re.compile('logo_tienda_.*')
-        tienda=precio.find("div", {"class" : regex}).attrs['class'][0]
-        canal = tienda.replace("logo_tienda_", "")
-        regex = re.compile('.*badge-info.*')
-        precio=precio.find("div", {"class" : regex}).text
-        precio = precio.replace("\n", "")
-        precio = precio.replace("'", ".")
-        precio = precio.replace("€", "")
-        precios['precios'].append({
-            'canal': canal,
-            'precio': float(precio)
-        })
+        for precio in lprecios:
+            regex = re.compile('logo_tienda_.*')
+            tienda=precio.find("div", {"class" : regex}).attrs['class'][0]
+            canal = tienda.replace("logo_tienda_", "")
+            regex = re.compile('.*badge-info.*')
+            precio=precio.find("div", {"class" : regex}).text
+            precio = precio.replace("\n", "")
+            precio = precio.replace("'", ".")
+            precio = precio.replace("€", "")
+            precios['precios'].append({
+                'canal': canal,
+                'precio': float(precio)
+            })
 
-    data = {
-        "title":titulo,
-        "thumb":thumb,
-        "consola":consola,
-        'precios':precios['precios']
-    }
+        data = {
+            "title":titulo,
+            "thumb":thumb,
+            "consola":consola,
+            'precios':precios['precios']
+        }
     return(data)
 
 def ofertas(consola=""):

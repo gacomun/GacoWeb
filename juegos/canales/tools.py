@@ -13,7 +13,7 @@ def limpiatexto(cadena):
 
 def getexchangerate(origen, destino):
     apikey=Property.objects.all().filter(clave="exchangerate-api.apikey")
-    url = "https://v6.exchangerate-api.com/v6/"+apikey+"/pair/"+origen+"/"+destino
+    url = "https://v6.exchangerate-api.com/v6/"+apikey.valor+"/pair/"+origen+"/"+destino
 
     payload={}
     headers = {}

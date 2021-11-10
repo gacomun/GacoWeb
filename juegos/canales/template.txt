@@ -1,0 +1,43 @@
+import logging
+import requests
+from bs4 import BeautifulSoup
+
+# Create a logger for this file
+logger = logging.getLogger(__file__)
+
+
+def search(title=""):
+    # objetos a devolver
+    # 'titulo'
+    # 'thumb'
+    # 'id'
+    # 'detail'
+    # 'consola'
+    return {}
+
+def detail(title=""):
+    # objeto a devolver
+    # "title"
+    # "tamano"
+    # "thumb"
+    # "consola"
+    # "precios"
+    #   "canal"
+        "precio"
+
+    return {}
+
+def ofertas(consola=""):
+    # objetos a devolver
+    # 'titulo'
+    # 'thumb'
+    # 'detail'
+    # 'precio'
+    # 'descuento'
+    # 'total'
+    # 'canal'
+    # 'consola'
+
+    ofertas={}
+    return ofertas
+
