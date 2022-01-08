@@ -25,11 +25,15 @@ def transactions(limit=100,offset=0,cookie=""):
     return response.text
 
 def search(title):
-    url = "https://web.np.playstation.com/api/graphql/v1//op?operationName=getSearchResults&variables={\"countryCode\":\"ES\",\"languageCode\":\"es\",\"nextCursor\":\"CBgaTgokM2I3MjNmMWM4MzNmNDk5M2E0ZmU2NWE0MjczNDkzOTQtOTMyEiZzZWFyY2gtcmVsZXZhbmN5LWNvbmNlcHQtZ2FtZS1hbGwtdG9wayIec2VhcmNoLm5vX2V4cGVyaW1lbnQubm9uLjAubm9uKgM3ODU\",\"pageOffset\":0,\"pageSize\":24,\"searchTerm\":\""+title+"\"}&extensions={\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"886102a3a6c2d2d80d5702fbe8fbf960e535bf85dfa7f5d5bf67dcc2775be177\"}}"
-
+    url = "https://web.np.playstation.com/api/graphql/v1//op?operationName=getSearchResults&variables={\"countryCode\":\"ES\",\"languageCode\":\"es\",\"pageOffset\":0,\"pageSize\":24,\"searchTerm\":\""+title+"\"}&extensions={\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"886102a3a6c2d2d80d5702fbe8fbf960e535bf85dfa7f5d5bf67dcc2775be177\"}}"
     payload={}
-    headers = {}
-
+    headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0',
+    'Accept': 'application/json',
+    'Accept-Language': 'es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'X-PSN-Store-Locale-Override': 'es-ES'
+    }
     response = requests.request("GET", url, headers=headers, data=payload)
     sresponse=json.loads(response.text)
     respuesta={}

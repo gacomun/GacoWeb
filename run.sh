@@ -2,5 +2,5 @@
 #export DEBUG=False
 #python3 manage.py collectstatic
 #gunicorn GacoWeb.wsgi --user javier --bind 0.0.0.0:8020 --workers 3
-python3 manage.py runserver 192.168.1.75:8020
+python3 manage.py runserver 0.0.0.0:8020
 #python3 manage.py runserver 192.168.1.38:8020

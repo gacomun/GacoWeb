@@ -76,8 +76,8 @@ def juego_list(request):
         # }
         limit = request.query_params.get('limit', None)
         if limit is None:
-            limit=20
-        filtros+="limit="+limit+"&"
+            limit=40
+        filtros+="limit="+str(limit)+"&"
         p = Paginator(items_data, limit)
         page = request.query_params.get('page', None)
         if page is None:

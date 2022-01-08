@@ -12,6 +12,9 @@ pip3 freeze -> para ver requeriments
 sudo apt-get install python3-setuptools
 pip3 install -r requirements.txt
 
+Para arrancar:
+    1- Crear carpeta log y data
+    2- ejecutar 'sh makemigrate.sh'
 
 Variable necesarias en Tabla Property
     exchangerate-api.apikey -> con el api key de "https://app.exchangerate-api.com/"
