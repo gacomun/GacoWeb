@@ -23,6 +23,8 @@ class Juego(models.Model):
         ('ps4', 'PS4'),
         ('ps5', 'PS5'),
         ('3ds', '3DS'),
+        ('pc', 'PC'),
+        ('and', 'Android'),
     )
     consola = models.CharField(
         max_length=3,

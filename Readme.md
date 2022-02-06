@@ -15,6 +15,7 @@ pip3 install -r requirements.txt
 Para arrancar:
     1- Crear carpeta log y data
     2- ejecutar 'sh makemigrate.sh'
+    3- ejecutar 'python manage.py createsuperuser'
 
 Variable necesarias en Tabla Property
     exchangerate-api.apikey -> con el api key de "https://app.exchangerate-api.com/"
