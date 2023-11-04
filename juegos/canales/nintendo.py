@@ -101,7 +101,11 @@ def detail(title=""):
                         tamano= float(tratatamano(listap[1].string))
                 if "Consola" in listap[0].string:
                         consola= trataConsola(listap[1].string)
-    imagen = soup.find_all('vc-price-box-standard')[0][":packshot-src"]
+    imagen=""
+    imagenes=soup.find_all('vc-price-box-standard')
+    if len(imagenes)>0:
+        if ":packshot-src" in imagenes[0]:
+            imagen = imagenes[0][":packshot-src"]
     # data = "{\"tamano\": "+str(tamano)+",\"imagen\":\"https:"+imagen.replace("'", "")+"\"}"
     data = {
         "title":title,

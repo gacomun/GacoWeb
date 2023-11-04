@@ -26,10 +26,20 @@ SECRET_KEY = 'msi3%x8#^cv)3o212sgp^7(b0!0_ncc0lnntbvi(@m(0olxuws'
 #SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# Comentar para ejecutar en local
 DEBUG = False
-#DEBUG = os.getenv('DEBUG')
+# Comentar para ejecutar en local
+# Descomentar para ejecutar en local
+# DEBUG = True
+# Descomentar para ejecutar en local
+# DEBUG = os.getenv('DEBUG')
 
+# Comentar para ejecutar en local
 ALLOWED_HOSTS = ['*']
+# Comentar para ejecutar en local
+# Descomentar para ejecutar en local
+# ALLOWED_HOSTS = []
+# Descomentar para ejecutar en local
 
 
 # Application definition
@@ -128,9 +138,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# Comentar para ejecutar en local
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
+# Comentar para ejecutar en local
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = ()

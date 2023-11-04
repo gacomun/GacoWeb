@@ -2,7 +2,10 @@ import requests
 import json
 
 def tratatiempo(tiempo):
-    return int(tiempo/60)
+    dev=0
+    if tiempo is not None:
+        dev=int(tiempo/60)
+    return dev
 
 def search(title=""):
     url = "https://duracionde.com/json/juegos?page=1&per_page=18&order_by=gameplay_count&name="+title
@@ -21,15 +24,15 @@ def search(title=""):
         tiempos['tiempos'] = []
         tiempos['tiempos'].append({
             'clave': "main",
-            'valor': tratatiempo(juego['stats']['multi']['main']['time'])
+            'valor': tratatiempo(juego['stats']['modes']['main']['time'])
         })
         tiempos['tiempos'].append({
             'clave': "extras",
-            'valor': tratatiempo(juego['stats']['multi']['extras']['time'])
+            'valor': tratatiempo(juego['stats']['modes']['extras']['time'])
         })
         tiempos['tiempos'].append({
             'clave': "complete",
-            'valor': tratatiempo(juego['stats']['multi']['complete']['time'])
+            'valor': tratatiempo(juego['stats']['modes']['complete']['time'])
         })
         thumb=""
         if juego['cover']:
