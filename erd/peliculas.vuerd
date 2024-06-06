@@ -1,0 +1,568 @@
+{
+  "canvas": {
+    "version": "2.2.13",
+    "width": 2000,
+    "height": 2000,
+    "scrollTop": -729.5,
+    "scrollLeft": -408.99999999999994,
+    "zoomLevel": 1,
+    "show": {
+      "tableComment": true,
+      "columnComment": true,
+      "columnDataType": true,
+      "columnDefault": true,
+      "columnAutoIncrement": true,
+      "columnPrimaryKey": true,
+      "columnUnique": true,
+      "columnNotNull": true,
+      "relationship": true
+    },
+    "database": "SQLite",
+    "databaseName": "peliculas",
+    "canvasType": "ERD",
+    "language": "GraphQL",
+    "tableCase": "pascalCase",
+    "columnCase": "camelCase",
+    "highlightTheme": "VS2015",
+    "bracketType": "none",
+    "setting": {
+      "relationshipDataTypeSync": true,
+      "relationshipOptimization": false,
+      "columnOrder": [
+        "columnName",
+        "columnDataType",
+        "columnNotNull",
+        "columnUnique",
+        "columnAutoIncrement",
+        "columnDefault",
+        "columnComment"
+      ]
+    },
+    "pluginSerializationMap": {}
+  },
+  "table": {
+    "tables": [
+      {
+        "id": "28b67fab-43e0-49fd-bd06-a6632a89a58c",
+        "name": "Peliculas",
+        "comment": "",
+        "columns": [
+          {
+            "id": "69d19446-5a9c-466b-a5c0-8483ed46a0aa",
+            "name": "id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": true,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "376b5b8c-6e46-4e27-8215-b1af1e881df2",
+            "name": "title",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "94b6b8aa-e612-40b4-b103-4adaef52a2b9",
+            "name": "poster_path",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 75.26791381835938,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 496.785,
+          "top": 752.5869,
+          "zIndex": 170,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true
+      },
+      {
+        "id": "0e57ac25-2727-4d0a-b520-e320af64d6f4",
+        "name": "Webs",
+        "comment": "",
+        "columns": [
+          {
+            "id": "0bb11f41-265b-4a64-a064-5b2e601586fe",
+            "name": "id",
+            "comment": "",
+            "dataType": "NUMERIC",
+            "default": "",
+            "option": {
+              "autoIncrement": true,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 61.1109619140625,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "db705867-bb25-4272-9644-c65319d961ff",
+            "name": "idPelicula",
+            "comment": "id pelicula",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60.17491149902344,
+              "widthComment": 63.684906005859375,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "582e9d03-f486-48dd-a196-5dd359064b92",
+            "name": "web",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "d8f68d5b-d4d7-4e4a-9d34-8afe393b1e0e",
+            "name": "idWeb",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "02d17fa0-7b67-4282-8054-769afe807eeb",
+            "name": "idSerie",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 1035.8704,
+          "top": 771.8543,
+          "zIndex": 149,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true
+      },
+      {
+        "id": "d28b24e9-91df-4495-808f-d6cf5f0af1b3",
+        "name": "Canales",
+        "comment": "",
+        "columns": [
+          {
+            "id": "06901b92-3154-4d77-baa4-7f4d45fb31e7",
+            "name": "id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": true,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "fcdfd07c-b624-4c3f-a517-9f56f4b7f2c4",
+            "name": "canal",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "45019e0c-8d8c-426f-b15b-42bdd69b1b3b",
+            "name": "idPelicula",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60.17491149902344,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "1563f7e8-3abe-45aa-bc6e-4db57e887583",
+            "name": "idSerie",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 504,
+          "top": 995.5,
+          "zIndex": 158,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true
+      },
+      {
+        "id": "1d839057-88c7-42c8-a097-bef02e2a862f",
+        "name": "Series",
+        "comment": "",
+        "columns": [
+          {
+            "id": "3b396c30-5925-4e71-b30b-70715ef857e3",
+            "name": "id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": true,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "17aca971-cfc5-48fb-a26f-054748553869",
+            "name": "title",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "cf0bb7d4-6572-4674-984b-7bc4f7d465b3",
+            "name": "poster_path",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 75.26791381835938,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          }
+        ],
+        "ui": {
+          "active": true,
+          "left": 1026,
+          "top": 1043.5,
+          "zIndex": 176,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true
+      }
+    ],
+    "indexes": []
+  },
+  "memo": {
+    "memos": []
+  },
+  "relationship": {
+    "relationships": [
+      {
+        "id": "95950996-e80e-412a-8350-1779be488c37",
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Ring",
+        "start": {
+          "tableId": "28b67fab-43e0-49fd-bd06-a6632a89a58c",
+          "columnIds": [
+            "69d19446-5a9c-466b-a5c0-8483ed46a0aa"
+          ],
+          "x": 906.0529138183595,
+          "y": 817.8369,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "0e57ac25-2727-4d0a-b520-e320af64d6f4",
+          "columnIds": [
+            "db705867-bb25-4272-9644-c65319d961ff"
+          ],
+          "x": 1035.8704,
+          "y": 857.6043,
+          "direction": "left"
+        },
+        "constraintName": "fk_peliculas_to_canales",
+        "visible": true
+      },
+      {
+        "id": "152ecec4-5db0-4939-afd2-c5ad64468e82",
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Ring",
+        "start": {
+          "tableId": "28b67fab-43e0-49fd-bd06-a6632a89a58c",
+          "columnIds": [
+            "69d19446-5a9c-466b-a5c0-8483ed46a0aa"
+          ],
+          "x": 701.4189569091798,
+          "y": 883.0869,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "d28b24e9-91df-4495-808f-d6cf5f0af1b3",
+          "columnIds": [
+            "45019e0c-8d8c-426f-b15b-42bdd69b1b3b"
+          ],
+          "x": 701.0874557495117,
+          "y": 995.5,
+          "direction": "top"
+        },
+        "constraintName": "fk_peliculas_to_canales",
+        "visible": true
+      },
+      {
+        "id": "a5493b50-b971-4e1f-ad29-431f75bed6ef",
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Ring",
+        "start": {
+          "tableId": "1d839057-88c7-42c8-a097-bef02e2a862f",
+          "columnIds": [
+            "3b396c30-5925-4e71-b30b-70715ef857e3"
+          ],
+          "x": 1230.6339569091797,
+          "y": 1043.5,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "0e57ac25-2727-4d0a-b520-e320af64d6f4",
+          "columnIds": [
+            "02d17fa0-7b67-4282-8054-769afe807eeb"
+          ],
+          "x": 1235.3557897094727,
+          "y": 943.3543,
+          "direction": "bottom"
+        },
+        "constraintName": "fk_series_to_webs",
+        "visible": true
+      },
+      {
+        "id": "0f2083e3-e60a-4a14-8084-564fd3f987ac",
+        "identification": false,
+        "relationshipType": "ZeroN",
+        "startRelationshipType": "Ring",
+        "start": {
+          "tableId": "1d839057-88c7-42c8-a097-bef02e2a862f",
+          "columnIds": [
+            "3b396c30-5925-4e71-b30b-70715ef857e3"
+          ],
+          "x": 1026,
+          "y": 1108.75,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "d28b24e9-91df-4495-808f-d6cf5f0af1b3",
+          "columnIds": [
+            "1563f7e8-3abe-45aa-bc6e-4db57e887583"
+          ],
+          "x": 898.1749114990234,
+          "y": 1071,
+          "direction": "right"
+        },
+        "constraintName": "fk_series_to_canales",
+        "visible": true
+      }
+    ]
+  }
+}

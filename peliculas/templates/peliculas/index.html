@@ -1,0 +1,107 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% load static %}
+  <script src="{% static 'juegos/index.js' %}"></script>
+<legend>Filtrosa</legend>
+    {% csrf_token %} 
+    <div class="row g-3">
+      <div class="col-sm">
+        <input type="text" class="form-control" placeholder="Titulo" aria-label="Titulo" id="titulo" name="titulo" value="{{ filtro.titulo }}">
+      </div>
+      <div class="col-sm">
+        <input type="text" class="form-control" placeholder="Ratio" aria-label="Ratio" id="ratio" name="ratio" value="{{ filtro.ratio }}">
+      </div>
+      <div class="col-auto">
+        Tipo
+        <select class="form-select form-select-sm" id="tipo" name="tipo" value="{{ filtro.tipo }}">
+          <option value="">Todos</option>
+          <option value="d">Digital</option>
+          <option value="f">Fisico</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        Consola
+        <select class="form-select form-select-sm" id="consola" name="consola" value="{{ filtro.consola }}">
+          <option value="">Todos</option>
+          <option value="nsw">Switch</option>
+          <option value="3ds">3DS</option>
+          <option value="ps4">PS4</option>
+          <option value="ps5">PS5</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        Terminado
+        <select class="form-select form-select-sm" id="end" name="end">
+          <option value="">Todos</option>
+          <option value="False" selected="selected">False</option>
+          <option value="True">True</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        Venta
+        <select class="form-select form-select-sm" id="venta" name="venta">
+          <option value="" >Todos</option>
+          <option value="False">False</option>
+          <option value="True" >True</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        Visible
+        <select class="form-select form-select-sm" id="visible" name="visible">
+          <option value="" >Todos</option>
+          <option value="False" >False</option>
+          <option value="True" selected="selected">True</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        Ordenar
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_1" value="title">
+            Titulo
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_2" value="ratio" checked>
+            Ratio
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_3" value="tamano" >
+            Tamaño
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_4" value="tiempo" >
+            Tiempo
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="opciones" id="opciones_5" value="precio" >
+            Precio
+          </label>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="radio">
+          <label>
+            <input type="radio" name="updown" id="updown_1" value=" asc">
+            Ascendente
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="updown" id="updown_2" value=" desc" checked>
+            Descendente
+          </label>
+        </div>
+      </div>
+    </div>
+  <button type="button" class="btn btn-primary" onclick="listjuegos()">Submit</button>   
+{% endblock %}
+
+  

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  {% block title %}<title>GacoWeb - Peliculas</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+  <script src="{% static 'juegos/functions.js' %}"></script>
+  
+  <link rel="stylesheet" type="text/css" href="{% static 'juegos/style.css' %}">
+</head>
+
+<body>
+
+  <div class="container-fluid">
+
+    <div class="row">
+      {% block sidebar %}
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'juegos:index' %}"><img src="{% static 'juegos/images/hogar.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'juegos:ofertasindex' %}"><img src="{% static 'juegos/images/percent.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'juegos:tools' %}"><img src="{% static 'juegos/images/compartir.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin"><img src="{% static 'juegos/images/usuarios.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/juegos/canales/search?modo=alta"><img src="{% static 'juegos/images/anadir.svg' %}" width="24"></a>
+        </li>
+        <li class="nav-item">
+          <small>
+            <div>Iconos diseñados por <a href="https://www.flaticon.es/autores/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
+            <div>Iconos diseñados por <a href="https://www.flaticon.es/autores/bqlqn" title="bqlqn">bqlqn</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
+            <div>Icons made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+          </small>
+        </li>
+      </ul>
+      <div id="msg"></div>
+      <div class="d-flex justify-content-center" style="visibility: hidden" id="spinner">
+          <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+          </div>
+      </div>
+
+     {% endblock %}
+      </div>
+      <div class="row">
+      {% block content %}{% endblock %}
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
